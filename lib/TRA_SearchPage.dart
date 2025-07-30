@@ -23,6 +23,15 @@ class TRASearchPage extends StatefulWidget {
   State<TRASearchPage> createState() => _TRASearchPageState();
 }
 
+int toMinutes(String time) {
+  final parts = time.split(':');
+  final hours = int.parse(parts[0]);
+  // Pad minutes with leading zero if necessary
+  final minutesStr = parts[1].padLeft(2, '0');
+  final minutes = int.parse(minutesStr);
+  return hours * 60 + minutes;
+}
+
 class _TRASearchPageState extends State<TRASearchPage> {
   List<dynamic> TrainTimeTables = [];
   final Map<int, GlobalKey> _itemKeys = {};
@@ -30,14 +39,17 @@ class _TRASearchPageState extends State<TRASearchPage> {
   int ClosestIndex = 0;
   final GlobalKey _scrollViewKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
+
+  String CurrentTime = "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
+
   Future<void> fetchTrain(startID, endID, dateString) async {
     print(startID);
     print(endID);
     print(dateString);
     final response = await http.get(
       Uri.parse(
-        //"https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/DailyTrainTimetable/OD/$startID/to/$endID/$dateString?%24top=114514&%24format=JSON",
-       "https://raw.githubusercontent.com/0944-tw/TRA_Testing/refs/heads/main/ExampleDailyTimetables.json",
+       // "https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/DailyTrainTimetable/OD/$startID/to/$endID/$dateString?%24top=114514&%24format=JSON",
+        "https://raw.githubusercontent.com/0944-tw/TRA_Testing/refs/heads/main/ExampleDailyTimetables.json",
       ),
       headers: {
         "User-Agent":
@@ -47,12 +59,6 @@ class _TRASearchPageState extends State<TRASearchPage> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       TrainTimeTables = data["TrainTimetables"];
-      int toMinutes(String time) {
-        final parts = time.split(':');
-        final hours = int.parse(parts[0]);
-        final minutes = int.parse(parts[1]);
-        return hours * 60 + minutes;
-      }
 
       TrainTimeTables.sort((item1, item2) {
         int d1 = toMinutes(item1["StopTimes"][0]["DepartureTime"]);
@@ -70,7 +76,7 @@ class _TRASearchPageState extends State<TRASearchPage> {
         int nowMinutes = toMinutes(
           "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
         );
-         if (trainDepartureMinutes < nowMinutes) {
+        if (trainDepartureMinutes < nowMinutes) {
           continue;
         }
         if (closestTrain != null) {
@@ -115,6 +121,7 @@ class _TRASearchPageState extends State<TRASearchPage> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.loaderOverlay.show();
     });
@@ -179,6 +186,10 @@ class _TRASearchPageState extends State<TRASearchPage> {
                 ...TrainTimeTables.asMap().entries.map((entry) {
                   int index = entry.key;
                   var train = entry.value;
+                  bool missed = false;
+                  if ((toMinutes(train['StopTimes'][0]['DepartureTime']) - toMinutes(CurrentTime) ) < 0) {
+                    missed = true;
+                  }
                   return Container(
                     key: _itemKeys[index],
                     child: TrainStatusCard(
@@ -188,6 +199,7 @@ class _TRASearchPageState extends State<TRASearchPage> {
                       Price: train['Price']?.toString() ?? '22',
                       TrainNo: train["TrainInfo"]["TrainNo"],
                       TrainType: train["TrainInfo"]["TrainTypeName"]["Zh_tw"],
+                      Missed: missed,
                     ),
                   );
                 }).toList(),
@@ -207,6 +219,8 @@ class TrainStatusCard extends StatelessWidget {
   final String TrainNo;
   final String TrainType;
   final bool Recommended;
+  final bool Missed;
+
   TrainStatusCard({
     required this.TimeDes,
     required this.TimeStart,
@@ -214,12 +228,23 @@ class TrainStatusCard extends StatelessWidget {
     required this.TrainNo,
     required this.TrainType,
     required this.Recommended,
+    required this.Missed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: Recommended
+              ? Theme.of(context).colorScheme.primary
+              : Color.fromARGB(0, 0, 0, 0), // or Colors.grey
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
+
       child: Column(
         children: <Widget>[
           Padding(
@@ -234,7 +259,7 @@ class TrainStatusCard extends StatelessWidget {
                         Row(
                           children: [
                             Chip(
-                              label: Text('最快'),
+                              label: Text('推薦'),
                               padding: EdgeInsets.all(0),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -271,7 +296,7 @@ class TrainStatusCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "0時 30分鐘",
+                            "約 ${toMinutes(this.TimeDes) - toMinutes(this.TimeStart)} 分鐘",
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 12,
@@ -288,11 +313,11 @@ class TrainStatusCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "準點",
+                        Missed ? "已過站" : "準點",
 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          // color: Theme.of(context).colorScheme.error,
+                          color: Missed ? Theme.of(context).colorScheme.error : Theme.of(context).textTheme.bodyMedium?.color,
                           fontSize: 12,
                         ),
                       ),
