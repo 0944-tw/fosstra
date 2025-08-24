@@ -33,7 +33,7 @@ class _LocationSelectPageState extends State<LocationSelectPage> {
   Future<void> fetchFormattedStations() async {
     final response = await http.get(
       Uri.parse(
-        'https://raw.githubusercontent.com/0944-tw/TRA_Testing/refs/heads/main/TRA_Stations.json',
+        'https://raw.githubusercontent.com/0944-tw/btrTRA_data/refs/heads/main/TestingData/TRA_Stations.json',
       ),
       headers: {
         "User-Agent":
