@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:modern_dialog/modern_dialog.dart';
 import 'package:tra/LocationSelect.dart';
+import 'package:tra/Settings.dart';
 import 'package:tra/TRA_SearchPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,6 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   String? stationStartName;
   String? stationDesName;
+
+  int currentPageIndex = 0;
 
   Future<void> _selectCity(String type) async {
     dynamic result = await Navigator.push<dynamic>(
@@ -72,10 +76,12 @@ class _HomePageState extends State<HomePage> {
       borderRadius: radius,
       child: InkWell(
         borderRadius: radius,
+
         onTap: () {
           OnClick();
         },
         child: ListTile(
+          contentPadding: EdgeInsets.only(left: 12),
           leading: Container(
             width: 42,
             height: 42,
@@ -96,6 +102,30 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+         selectedIndex: currentPageIndex,
+        
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: '首頁',
+          ),
+          NavigationDestination(
+            icon:  Icon(Icons.history),
+            label: '紀錄',
+          ),
+          NavigationDestination(
+            icon:  Icon(Icons.favorite),
+            label: '收藏',
+          ),
+        ],
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -107,8 +137,11 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   icon: const Icon(Icons.settings),
                   tooltip: 'btrTRA 設定',
-                  onPressed: () {
-                    /* ... */
+                  onPressed: () async {
+                    await Navigator.push<String>(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()),
+                    );
                   },
                 ),
               ],
@@ -265,7 +298,6 @@ class _HomePageState extends State<HomePage> {
                                 TimeOfDay? td = await showTimePicker(
                                   context: context,
                                   initialTime: TimeOfDay.now(),
-                                  
                                 );
                                 if (td != null) {
                                   selectedTimeOfDay = td;
@@ -316,6 +348,26 @@ class _HomePageState extends State<HomePage> {
                 style: FilledButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
                   backgroundColor: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              SizedBox(height: 10),
+              Card(
+                elevation: 0,
+                color: Theme.of(context).colorScheme.surface,
+                child: Column(
+                  children: [
+                    _buildLocationTile(
+                      context,
+                      BorderRadius.all(Radius.circular(12)),
+                      "自強查詢/訂票",
+                      "你可以訂票然後不用那個爛爛的臺鐵app",
+                      Icons.train,
+                      () {
+                        _selectCity("start");
+                      },
+                    ),
+                    
+                  ],
                 ),
               ),
             ],
