@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tra/HomePage.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -16,22 +17,33 @@ class MainApp extends StatelessWidget {
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         // Define your fallback color schemes
         ColorScheme lightColorScheme = ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple, // Your default primary color
-          brightness: Brightness.light,
+              seedColor: Color.fromARGB(255, 37, 111, 160),
+             // seedColor: Colors.deepPurple,
+           brightness: Brightness.light,
         );
         ColorScheme darkColorScheme = ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+         seedColor: Color.fromARGB(255, 37, 111, 160),
           brightness: Brightness.dark,
         );
 
-        // If dynamic colors are available, use them
+        /*
+         // If dynamic colors are available, use them
         if (lightDynamic != null && darkDynamic != null) {
           lightColorScheme = lightDynamic;
           darkColorScheme = darkDynamic;
         }
+        */
 
         return MaterialApp(
-          title: 'OpenTRA',
+          title: 'btrTRA',
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en'), 
+            Locale('tw'),
+          ],
           theme: ThemeData(
             colorScheme: lightColorScheme,
             useMaterial3: true, // Crucial for Material You
@@ -40,7 +52,7 @@ class MainApp extends StatelessWidget {
             colorScheme: darkColorScheme,
             useMaterial3: true,
           ),
-          themeMode: ThemeMode.system, // Respects system light/dark mode
+          themeMode: ThemeMode.light, // Respects system light/dark mode
           home: HomePage(),
         );
       },
