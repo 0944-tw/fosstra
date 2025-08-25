@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tra/Dialog/UnexpectedError.dart';
+import 'package:tra/TRA_TrainTimetables.dart';
 
 class TRASearchPage extends StatefulWidget {
   final dynamic startStation;
@@ -48,8 +49,9 @@ class _TRASearchPageState extends State<TRASearchPage> {
     print(dateString);
     final response = await http.get(
       Uri.parse(
-       // "https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/DailyTrainTimetable/OD/$startID/to/$endID/$dateString?%24top=114514&%24format=JSON",
-        "https://raw.githubusercontent.com/0944-tw/TRA_Testing/refs/heads/main/ExampleDailyTimetables.json",
+        //"https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/DailyTrainTimetable/OD/$startID/to/$endID/$dateString?%24top=114514&%24format=JSON",
+        // "https://raw.githubusercontent.com/0944-tw/btrTRA_data/refs/heads/main/TestingData/ExampleDailyTimetables.json",
+         "http://btr-tra-api.vercel.app/api/v3/Rail/TRA/DailyTrainTimetable/OD/$startID/to/$endID/$dateString"
       ),
       headers: {
         "User-Agent":
@@ -187,7 +189,9 @@ class _TRASearchPageState extends State<TRASearchPage> {
                   int index = entry.key;
                   var train = entry.value;
                   bool missed = false;
-                  if ((toMinutes(train['StopTimes'][0]['DepartureTime']) - toMinutes(CurrentTime) ) < 0) {
+                  if ((toMinutes(train['StopTimes'][0]['DepartureTime']) -
+                          toMinutes(CurrentTime)) <
+                      0) {
                     missed = true;
                   }
                   return Container(
@@ -239,118 +243,131 @@ class TrainStatusCard extends StatelessWidget {
         side: BorderSide(
           color: Recommended
               ? Theme.of(context).colorScheme.primary
-              : Color.fromARGB(0, 0, 0, 0), // or Colors.grey
+              : Color.fromARGB(0, 0, 0, 0),
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(12),
       ),
-
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 6,
-                  child: Column(
-                    children: [
-                      if (Recommended)
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        splashColor: Color.fromARGB(125, 255, 255, 255),
+        onTap: () async {
+            await Navigator.push<String>(
+            context,
+            MaterialPageRoute(builder: (context) => TRATimeTablesState(
+              TrainNo: this.TrainNo,
+              TrainType: this.TrainType,
+            )),
+          );
+        },
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Column(
+                      children: [
+                        if (Recommended)
+                          Row(
+                            children: [
+                              Chip(
+                                label: Text('推薦'),
+                                padding: EdgeInsets.all(0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         Row(
                           children: [
-                            Chip(
-                              label: Text('推薦'),
-                              padding: EdgeInsets.all(0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: BorderSide(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
-                                ),
+                            Text(
+                              this.TimeStart,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Icon(Icons.arrow_right),
+                            Text(
+                              this.TimeDes,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
-                      Row(
-                        children: [
-                          Text(
-                            this.TimeStart,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                        Row(
+                          children: [
+                            Text(
+                              "約 ${toMinutes(this.TimeDes) - toMinutes(this.TimeStart)} 分鐘",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          Icon(Icons.arrow_right),
-                          Text(
-                            this.TimeDes,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "約 ${toMinutes(this.TimeDes) - toMinutes(this.TimeStart)} 分鐘",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text(
-                        Missed ? "已過站" : "準點",
-
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Missed ? Theme.of(context).colorScheme.error : Theme.of(context).textTheme.bodyMedium?.color,
-                          fontSize: 12,
+                          ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text(
-                        TrainType,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text(
+                          Missed ? "已過站" : "準點",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Missed
+                                ? Theme.of(context).colorScheme.error
+                                : Theme.of(context).textTheme.bodyMedium?.color,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        TrainNo,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Text(
+                          TrainType,
+                          style: TextStyle(
+                            color: TrainType.contains("區間") ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.tertiary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          TrainNo,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
