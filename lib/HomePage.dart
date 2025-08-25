@@ -360,7 +360,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       BorderRadius.all(Radius.circular(12)),
                       "自強查詢/訂票",
-                      "你可以訂票然後不用那個爛爛的臺鐵app",
+                      "不穩定！好欸！",
                       Icons.train,
                       () {
                         _selectCity("start");
