@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tra/views/LocationSelect.dart';
+import 'package:tra/views/LocationSelect/location_select.dart';
 import 'package:tra/views/TRA_SearchPage/TRA_SearchPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageViewModel extends BaseViewModel {
+  SharedPreferences? _perfs;
 
   dynamic stationStart;
   dynamic stationDestination;
@@ -13,19 +16,17 @@ class HomePageViewModel extends BaseViewModel {
   String? stationStartName;
   String? stationDestinationName;
 
-
   Future<void> updateDateTime(dynamic context) async {
     DateTime? time = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        Duration(days: 30),
-      ),
+      lastDate: DateTime.now().add(Duration(days: 30)),
       initialDate: DateTime.now(),
     );
     selectedDate = time;
     notifyListeners();
   }
+
   Future<void> updateTimeOfDay(dynamic context) async {
     TimeOfDay? td = await showTimePicker(
       context: context,
@@ -36,29 +37,35 @@ class HomePageViewModel extends BaseViewModel {
     }
     notifyListeners();
   }
+
   Future<void> selectCity(dynamic context, String type) async {
+    final loc = Localizations.localeOf(context);
+    String localizedName(Locale locale) {
+      if (locale.languageCode == 'zh') return "Zh_tw";
+      return "En";
+    }
+
     dynamic result = await Navigator.push<dynamic>(
       context,
       MaterialPageRoute(
         builder: (context) =>
-            LocationSelectPage(title: type == "start" ? "出發點" : "目的地"),
+            LocationSelectView(title: type == "start" ? "出發點" : "目的地"),
       ),
     );
 
     if (result != null) {
-
-        if (type == "start") {
-          stationStart = result;
-          stationStartName = result["StationName"]["Zh_tw"];
-        } else {
-          stationDestination = result;
-          stationDestinationName = result["StationName"]["Zh_tw"];
-        }
-
+      if (type == "start") {
+        stationStart = result;
+        stationStartName = result["StationName"][localizedName(loc)];
+      } else {
+        stationDestination = result;
+        stationDestinationName = result["StationName"][localizedName(loc)];
+      }
     }
     notifyListeners();
   }
-  void Swap(){
+
+  void Swap() {
     var temp = stationStart;
     var temp2 = stationStartName;
     stationStart = stationDestination;
@@ -67,17 +74,16 @@ class HomePageViewModel extends BaseViewModel {
     stationDestinationName = temp2;
     notifyListeners();
   }
-  Future<void> Search(dynamic context) async {
-   await Navigator.push<String>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TRASearchPage(
-          startStation: stationStart,
-          desStation: stationDestination,
-          dateTime: selectedDate ?? DateTime.now(), // "yy
-          timeOfDay: selectedTimeOfDay ?? TimeOfDay.now(), // yy-MM-dd" format
-        ),
-      ),
+
+  Future<void> Search(BuildContext context) async {
+    context.push(
+      "/TRA/search",
+      extra: {
+        "date": selectedDate ?? DateTime.now(), // "yy
+        "time": selectedTimeOfDay ?? TimeOfDay.now(), // yy-MM-dd" format
+        "start": stationStart,
+        "destination": stationDestination
+      },
     );
   }
 }

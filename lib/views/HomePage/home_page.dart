@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:modern_dialog/modern_dialog.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tra/views/HomePage/HomePage_ViewModel.dart';
-import 'package:tra/views/LocationSelect.dart';
-import 'package:tra/views/Settings/Settings.dart';
+import 'package:tra/l10n/app_localizations.dart';
+import 'package:tra/views/HomePage/home_page_viewmodel.dart';
+import 'package:tra/views/LocationSelect/location_select.dart';
+import 'package:tra/views/Settings/settings.dart';
 import 'package:tra/views/TRA_SearchPage/TRA_SearchPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,14 +19,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // ignore: use_super_parameters
 
-
   int currentPageIndex = 0;
-
 
   @override
   Widget build(BuildContext context) {
-   return ViewModelBuilder<HomePageViewModel>.reactive(
-      viewModelBuilder:() => HomePageViewModel() ,
+    final localizations = AppLocalizations.of(context)!;
+
+    return ViewModelBuilder<HomePageViewModel>.reactive(
+      viewModelBuilder: () => HomePageViewModel(),
       builder: (context, model, child) => Scaffold(
         bottomNavigationBar: NavigationBar(
           onDestinationSelected: (int index) {
@@ -34,14 +36,22 @@ class _HomePageState extends State<HomePage> {
           },
           selectedIndex: currentPageIndex,
 
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: '首頁',
+              selectedIcon: const Icon(Icons.home_rounded),
+              icon: const Icon(Icons.home_rounded),
+              label: localizations.home,
             ),
-            NavigationDestination(icon: Icon(Icons.history), label: '紀錄',enabled: false ),
-            NavigationDestination(icon: Icon(Icons.favorite), label: '收藏', enabled: false,),
+            NavigationDestination(
+              icon: const Icon(Icons.history),
+              label: localizations.history,
+              enabled: false,
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.favorite),
+              label: localizations.favorite,
+              enabled: false,
+            ),
           ],
         ),
         body: Scaffold(
@@ -50,13 +60,10 @@ class _HomePageState extends State<HomePage> {
             centerTitle: true,
             actions: [
               IconButton(
-                icon: const Icon(Icons.settings),
+                icon: const Icon(Icons.settings_rounded),
                 tooltip: 'btrTRA 設定',
                 onPressed: () async {
-                  await Navigator.push<String>(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()),
-                  );
+                  await context.push("/settings");
                 },
               ),
             ],
@@ -66,36 +73,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(3),
-                  child: Material(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                    child: ListTile(
-                      leading: Container(
-                        width: 42,
-                        height: 42,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.onErrorContainer,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                        ),
-                        child: Icon(
-                          Icons.error,
-                          color: Theme.of(context).colorScheme.errorContainer,
-                        ),
-                      ),
-                      title: Text(
-                        "天然災變",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).textTheme.labelLarge?.color,
-                        ),
-                      ),
-                      subtitle: Text("初音未來！！！！"),
-                    ),
-                  ),
-                ),
+
                 SizedBox(height: 3),
                 Card(
                   elevation: 0,
@@ -113,11 +91,11 @@ class _HomePageState extends State<HomePage> {
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
                                 ),
-                                name: "出發",
-                                description: model.stationStartName ?? "尚未設定",
-                                icon: Icons.flight_takeoff,
+                                name: localizations.startStation,
+                                description: model.stationStartName ?? localizations.empty,
+                                icon: Icons.flight_takeoff_rounded,
                                 onClick: () {
-                                  model.selectCity(context,"start");
+                                  model.selectCity(context, "start");
                                 },
                               ),
                               SizedBox(height: 3),
@@ -126,11 +104,12 @@ class _HomePageState extends State<HomePage> {
                                   bottomLeft: Radius.circular(12),
                                   bottomRight: Radius.circular(12),
                                 ),
-                                name: "抵達",
-                                description: model.stationDestinationName ?? "尚未設定",
-                                icon: Icons.flight_land,
+                                name: localizations.destinationStation,
+                                description:
+                                    model.stationDestinationName ?? localizations.empty,
+                                icon: Icons.flight_land_rounded,
                                 onClick: () {
-                                  model.selectCity(context,"des");
+                                  model.selectCity(context, "des");
                                 },
                               ),
                             ],
@@ -150,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   child: Padding(
                                     padding: EdgeInsetsGeometry.all(8),
-                                    child: Icon(Icons.swap_vert),
+                                    child: Icon(Icons.swap_vert_rounded,),
                                   ),
                                 ),
                               ),
@@ -170,11 +149,11 @@ class _HomePageState extends State<HomePage> {
                                   topLeft: Radius.circular(12),
                                   bottomLeft: Radius.circular(12),
                                 ),
-                                name: "日期",
+                                name: localizations.date,
                                 description:
                                     '${model.selectedDate?.toString().split(' ')[0] ?? DateTime.now().toString().split(' ')[0]}',
                                 icon: Icons.calendar_today,
-                                onClick: () => model.updateDateTime(context)
+                                onClick: () => model.updateDateTime(context),
                               ),
                             ),
                           ),
@@ -187,11 +166,11 @@ class _HomePageState extends State<HomePage> {
                                   topRight: Radius.circular(12),
                                   bottomRight: Radius.circular(12),
                                 ),
-                                name: "時間",
+                                name: localizations.time,
                                 description:
                                     '${model.selectedTimeOfDay?.hour ?? TimeOfDay.now().hour}:${model.selectedTimeOfDay?.minute ?? TimeOfDay.now().minute}',
                                 icon: Icons.timer,
-                                onClick: () => model.updateTimeOfDay(context)
+                                onClick: () => model.updateTimeOfDay(context),
                               ),
                             ),
                           ),
@@ -204,22 +183,23 @@ class _HomePageState extends State<HomePage> {
 
                 FilledButton(
                   onPressed: () {
-                    if (model.stationDestination == null || model.stationStart == null) {
+                    if (model.stationDestination == null ||
+                        model.stationStart == null) {
                       showDialog<void>(
                         context: context,
                         barrierDismissible: false,
                         // user must tap button!
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('到底在？'),
+                            title:   Text(localizations.stationNotSelectedAlertTitle),
                             content: SingleChildScrollView(
                               child: ListBody(
-                                children: <Widget>[Text("不是哥們？")],
+                                children: <Widget>[Text(localizations.stationNotSelectedAlertDescription)],
                               ),
                             ),
                             actions: <Widget>[
                               TextButton(
-                                child: const Text('關閉'),
+                                child:   Text(localizations.close),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -233,11 +213,11 @@ class _HomePageState extends State<HomePage> {
 
                     model.Search(context);
                   },
-                  child: Text("搜尋"),
                   style: FilledButton.styleFrom(
                     minimumSize: Size(double.infinity, 50),
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
+                  child: Text(localizations.search),
                 ),
                 SizedBox(height: 10),
                 Card(
@@ -247,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       LocationTile(
                         radius: BorderRadius.all(Radius.circular(12)),
-                        name: "自強查詢/訂票",
+                        name: localizations.expressTrainTicketOrderTitle,
                         description: "Coming Soon™️ ️",
                         icon: Icons.train,
                         disabled: true,
