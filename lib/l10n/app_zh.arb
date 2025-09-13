@@ -1,0 +1,65 @@
+{
+  "@@locale": "zh",
+  "home": "首頁",
+  "history": "歷史紀錄",
+  "favorite": "最愛",
+  "search": "搜尋",
+  "startStation": "起點",
+  "destinationStation": "終點",
+  "empty": "空",
+  "date": "日期",
+  "time": "時間",
+  "close": "關閉",
+  "select": "選擇",
+  "expressTrainTicketOrderTitle": "對號列車訂票",
+  "stationNotSelectedAlertTitle": "必須選擇車站",
+  "stationNotSelectedAlertDescription": "未選擇車站無法進入下一步！",
+  "routeDescription": "{startStationName} 前往 {destinationStationName}",
+  "@routeDescription": {
+    "description": "描述從起點站到終點站的路線。",
+    "placeholders": {
+      "startStationName": {
+        "type": "String",
+        "example": "台北車站"
+      },
+      "destinationStationName": {
+        "type": "String",
+        "example": "高雄車站"
+      }
+    }
+  },
+  "searchResultsFound": "{count, plural, =0{沒有找到結果} =1{找到 1 筆結果} other{找到 {count} 筆結果}}",
+  "@searchResultsFound": {
+    "description": "表示搜尋到多少筆結果。",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "durationMinutes": "{minutes} 分鐘",
+  "@durationMinutes": {
+    "description": "表示列車所需時間",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "35"
+      }
+    }
+  },
+  "passed": "已通過",
+  "onTime": "準點",
+  "recommended": "推薦",
+  "loading": "載入中",
+
+  "fuHsing": "復興號",
+  "localTrain": "區間車",
+  "localTrainFast": "區間快車",
+  "tzeChiangEMU3000": "自強號 (EMU3000)",
+  "tzeChiang": "自強號",
+  "ordinaryTrain": "普快車",
+  "chuKuangExpress": "莒光號",
+  "puyumaExpress": "普悠瑪號",
+  "tarokoExpress": "太魯閣號"
+}

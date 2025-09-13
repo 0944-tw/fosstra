@@ -1,0 +1,88 @@
+{
+  "@@locale": "en",
+  "home": "Home",
+  "history": "History",
+  "favorite": "Favorite",
+  "search": "Search",
+  "startStation": "Start",
+  "destinationStation": "Destination",
+  "empty": "Empty",
+  "date": "Date",
+  "time": "Time",
+  "close": "Close",
+  "select": "Select",
+  "expressTrainTicketOrderTitle": "Express Train Ticket Ordering",
+  "stationNotSelectedAlertTitle": "You must select stations",
+  "stationNotSelectedAlertDescription": "You can't go next step without selecting stations!",
+  "routeDescription": "{startStationName} to {destinationStationName}",
+  "@routeDescription": {
+    "description": "Describes a route from a starting station to a destination station.",
+    "placeholders": {
+      "startStationName": {
+        "type": "String",
+        "example": "Taipei Main Station"
+      },
+      "destinationStationName": {
+        "type": "String",
+        "example": "Kaohsiung Station"
+      }
+    }
+  },
+  "searchResultsFound": "{count, plural, =0{No results found} =1{1 result found} other{{count} results found}}",
+  "@searchResultsFound": {
+    "description": "Indicates how many search results were found.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "durationMinutes": "{minutes} Minutes",
+  "@durationMinutes": {
+    "description": "The time the train costs",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "35"
+      }
+    }
+  },
+  "passed": "Passed",
+  "onTime": "On time",
+  "recommended": "Recommended",
+  "loading": "Loading",
+
+  "fuHsing": "Fu-Hsing Semi Express",
+  "localTrain": "Local Train",
+  "localTrainFast": "Fast Local Train",
+  "tzeChiangEMU3000": "Tze-Chiang (EMU3000)",
+  "tzeChiang": "Tze-Chiang Limited Express",
+  "ordinaryTrain": "Ordinary Train",
+  "chuKuangExpress": "Chu-Kuang Express",
+  "puyumaExpress": "Puyuma Express",
+  "tarokoExpress": "Taroko Express",
+
+  "settingsGeneral": "General",
+  "settingsMaterialYouTitle": "Material You",
+  "settingsMaterialYouDescription": "Use System Color",
+
+  "settingsLanguageTitle": "Language",
+
+  "settingsAdvanced": "Advanced",
+  "settingsAPIConfigurationTitle": "API Configuration",
+  "settingsAPIConfigurationDescription": "Modify API Configuration (Token,API URL)",
+
+  "settingsDebugModeTitle": "Debug Mode",
+  "settingsDebugModeDescription": "Debug Mode",
+
+  "settingsTestingDataTitle": "Testing Data",
+  "settingsTestingDataDescription": "This will use testing data instead of real data",
+
+  "settingsAbout": "About",
+
+  "settingsVersionTitle": "Version",
+  "settingsDonateTitle": "Donate",
+  "settingsDonateDescription": "This project costs 200 dolla per month (6.5 credits of maimai)"
+}
+   
