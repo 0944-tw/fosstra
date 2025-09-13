@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tra/Dialog/UnexpectedError.dart';
+import 'package:tra/l10n/app_localizations.dart';
+import 'package:tra/views/TRA_DailyTrainSchedule/TRA_TrainTimetables.dart';
 import 'package:tra/views/TRA_SearchPage/TRA_SearchPage_ViewModel.dart';
-import 'package:tra/views/TRA_TrainTimetables.dart';
 
 
 class TRASearchPage extends StatelessWidget {
@@ -32,17 +33,36 @@ class TRASearchPage extends StatelessWidget {
 
   String currentTime = "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
 
-
+  String trainTypeName(BuildContext context, int code) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (code) {
+      case 1: return l10n.tarokoExpress;
+      case 2: return l10n.puyumaExpress;
+      case 3: return l10n.tzeChiang;
+      case 4: return l10n.chuKuangExpress;
+      case 5: return l10n.fuHsing;
+      case 6: return l10n.localTrain;
+      case 7: return l10n.ordinaryTrain;
+      case 10: return l10n.localTrainFast;
+      case 11: return l10n.tzeChiangEMU3000;
+      default: return code.toString(); // fallback
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return ViewModelBuilder<TRASearchPageViewModel>.reactive(
         viewModelBuilder: () => TRASearchPageViewModel(),
         onViewModelReady: (vm) => vm.fetchTrain(
+          context,
           startStation["StationID"],
           desStation["StationID"],
           dateTime.toString().split(' ')[0],
         ),
         builder: (context,vm,child) {
+          final locale = vm.getLanguageCode(Localizations.localeOf(context));
+
           return Scaffold(
             body: NestedScrollView(
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -60,15 +80,15 @@ class TRASearchPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "${startStation["StationName"]["Zh_tw"]} 到 ${desStation["StationName"]["Zh_tw"]} ",
-                            style: TextStyle(
+                            localizations.routeDescription(startStation["StationName"][locale],desStation["StationName"][locale]),
+                            style:  TextStyle(
                               color: Theme.of(context).textTheme.titleLarge?.color,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            "共有 ${vm.trainTimeTables.length} 個結果",
+                            vm.isBusy ? localizations.loading : localizations.searchResultsFound(vm.trainTimeTables.length),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Theme.of(context).textTheme.displayMedium?.color,
@@ -81,10 +101,9 @@ class TRASearchPage extends StatelessWidget {
                   ),
                 ];
               },
-              body: LoaderOverlay(
-                closeOnBackButton: true,
-                disableBackButton: false,
-                child: SingleChildScrollView(
+              body: vm.isBusy
+                  ? const Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
                   controller: vm.scrollController,
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: Column(
@@ -105,7 +124,7 @@ class TRASearchPage extends StatelessWidget {
                           timeStart: train['StopTimes'][0]['DepartureTime'] ?? '',
                           price:  vm.pricesByDirection[Direction]![TrainType].toString()  ?? '',
                           trainNo: train["TrainInfo"]["TrainNo"],
-                          trainType: train["TrainInfo"]["TrainTypeName"]["Zh_tw"],
+                          trainType: trainTypeName(context, int.parse(train["TrainInfo"]["TrainTypeCode"])),
                           missed: missed,
                         ),
                       );
@@ -114,7 +133,7 @@ class TRASearchPage extends StatelessWidget {
 
                   ),
                 ),
-              ),
+
             ),
           );
         }
@@ -144,6 +163,8 @@ class TrainStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -159,15 +180,7 @@ class TrainStatusCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         splashColor: Color.fromARGB(125, 255, 255, 255),
         onTap: () async {
-          await Navigator.push<String>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TRATimeTablesState(
-                TrainNo: trainNo,
-                TrainType: trainType,
-              ),
-            ),
-          );
+          context.push("/TRA/train/$trainNo");
         },
         child: Column(
           children: <Widget>[
@@ -183,7 +196,7 @@ class TrainStatusCard extends StatelessWidget {
                           Row(
                             children: [
                               Chip(
-                                label: Text('推薦'),
+                                label: Text(localizations.recommended),
                                 padding: EdgeInsets.all(0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -220,7 +233,7 @@ class TrainStatusCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "約 ${toMinutes(timeDes) - toMinutes(timeStart)} 分鐘",
+                              localizations.durationMinutes(toMinutes(timeDes) - toMinutes(timeStart)),
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: 12,
@@ -237,7 +250,7 @@ class TrainStatusCard extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          missed ? "已過站" : "準點",
+                          missed ? localizations.passed : localizations.onTime,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: missed
