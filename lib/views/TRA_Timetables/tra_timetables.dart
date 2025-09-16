@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
-import 'package:tra/views/TRA_DailyTrainSchedule/TRA_TrainTimetables_ViewModel.dart';
+import 'package:tra/views/TRA_Timetables//tra_timetables_viewmodel.dart';
 
 int toMinutes(String time) {
   final parts = time.split(':');
@@ -34,7 +34,9 @@ class DailyTrainScheduleTRA extends StatelessWidget {
       builder: (context, vm, child) {
         final locale = vm.getLanguageCode(Localizations.localeOf(context));
 
-        return Scaffold(
+        return   vm.isBusy
+            ? const Center(child: CircularProgressIndicator())
+            :  Scaffold(
           body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -76,10 +78,7 @@ class DailyTrainScheduleTRA extends StatelessWidget {
                     ),
                   ];
                 },
-            body: LoaderOverlay(
-              closeOnBackButton: true,
-              disableBackButton: false,
-              child: SingleChildScrollView(
+            body:  SingleChildScrollView(
                 padding: EdgeInsets.only(left: 5, right: 5),
                 child: Column(
                   children: vm.stopTimes.asMap().entries.map((entry) {
@@ -128,7 +127,7 @@ class DailyTrainScheduleTRA extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-              ),
+
             ),
           ),
         );

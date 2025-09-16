@@ -8,6 +8,7 @@ class DailyTrainScheduleTRA_ViewModel extends BaseViewModel {
   List<dynamic> stopTimes = [];
   Map<String,dynamic>? trainInfo = {};
   Future<void> fetchTimetables(int TrainTypeID) async {
+    setBusy(true);
      final response = await http.get(
       Uri.parse(
         "https://raw.githubusercontent.com/0944-tw/TaiwanRailwayData/refs/heads/main/TRA/DailyTrainTimetables/$TrainTypeID.json",
