@@ -1,8 +1,12 @@
 # fosstra
-Open source Taiwan Railway Checker (W.I.P)
+> [!WARNING]
+> 目前結構與code, commits很亂，未來可能會重構並統一 commit 格式
+>
 
-## *roadmap*
-- [x] Basic train data fetching 
+開源台鐵查詢器（WIP）
+
+## *路線圖*
+- [x] 列車資料獲取
 - [x] l10n
-- [ ] Ticket ordering
+- [ ] 訂票
 - [ ] Crowdin
