@@ -3,6 +3,6 @@ Open source Taiwan Railway Checker (W.I.P)
 
 ## *roadmap*
 - [x] Basic train data fetching 
-- [ ] l10n
+- [x] l10n
 - [ ] Ticket ordering
 - [ ] Crowdin
