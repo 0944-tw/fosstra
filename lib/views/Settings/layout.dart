@@ -19,6 +19,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(title: Text(widget.title), leading: BackButton(onPressed: () => context.pop()), centerTitle: true),
       body: widget.child,
     );

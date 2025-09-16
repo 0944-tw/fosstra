@@ -7,12 +7,10 @@ import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/views/LocationSelect/location_select.dart';
 import 'package:tra/views/Settings/settings_viewmodel.dart';
-import 'package:tra/views/TRA_SearchPage/TRA_SearchPage.dart';
-
-
+import 'package:tra/views/TRA_SearchPage/tra_searchpage.dart';
+import 'package:tra/widgets/SettingsListTile.dart';
 
 class SettingsIndex extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -33,204 +31,170 @@ class SettingsIndex extends StatelessWidget {
     return ViewModelBuilder<SettingsViewModel>.reactive(
       viewModelBuilder: () => SettingsViewModel(),
       onViewModelReady: (model) => model.init(context),
-      builder: (context, model, child) =>    SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      builder: (context, model, child) => SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8.0,
-                    top: 8.0,
-                    bottom: 8.0,
-                  ),
-                  child: Text(
-                    localizations.settingsGeneral,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 14.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+              child: Text(
+                localizations.settingsGeneral,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+            Material(
+              borderRadius: BorderRadius.circular(16),
+              clipBehavior: Clip.antiAlias,
+
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SettingsListTile(
+                    onTap: () {
+                      model.setEnableMaterialYou(!model.enableMaterialYou);
+                    },
+                    icon: Symbols.brush_rounded,
+                    title: localizations.settingsMaterialYouTitle,
+                    subtitle: localizations.settingsMaterialYouDescription,
+                    trailing: Switch(
+                      // This bool value toggles the switch.
+                      value: model.enableMaterialYou,
+                      onChanged: (bool value) async {
+                        model.setEnableMaterialYou(!model.enableMaterialYou);
+                      },
                     ),
                   ),
+                  SizedBox(height: 3),
+                  SettingsListTile(
+                    icon: Symbols.translate_rounded,
+                    title: localizations.settingsLanguageTitle,
+                    subtitle: languageMap[model.locale.languageCode]!,
+                    onTap: () async {
+                      await context.push("/settings/locale");
+                      model.init(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+              child: Text(
+                localizations.settingsAdvanced,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 14.0,
                 ),
-                Material(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(16),
-                  clipBehavior: Clip.antiAlias,
-
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        leading: Icon(
-                          Icons.brush_rounded,
-                          weight: 600,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-
-                        title: Text(localizations.settingsMaterialYouTitle),
-                        subtitle: Text(localizations.settingsMaterialYouDescription),
-                        onTap: () {
-                          model.setEnableMaterialYou(!model.enableMaterialYou);
-                        },
-                        trailing: Switch(
-                          // This bool value toggles the switch.
-                          value: model.enableMaterialYou,
-                          onChanged: (bool value) async {
-                            model.setEnableMaterialYou(
-                              !model.enableMaterialYou,
-                            );
-                          },
-                        ),
-                      ),
-                      Divider(height: 1),
-                      ListTile(
-                        leading: Icon(
-                          Icons.translate_rounded,
-                          weight: 600,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        title: Text(localizations.settingsLanguageTitle),
-                        subtitle: Text(languageMap[model.locale.languageCode]!),
-                        onTap: () async {
-                          await context.push("/settings/locale");
-                          model.init(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8.0,
-                    top: 8.0,
-                    bottom: 8.0,
-                  ),
-                  child: Text(
-                    localizations.settingsAdvanced,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                ),
-
-                Material(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(16),
-                  clipBehavior: Clip.antiAlias,
-
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.link, weight: 600),
-                        iconColor: Theme.of(context).colorScheme.secondary,
-
-                        title: Text(localizations.settingsAPIConfigurationTitle),
-                        subtitle: Text(localizations.settingsAPIConfigurationDescription),
-                        onTap: () {},
-                      ),
-
-                      Divider(height: 1),
-                      ListTile(
-                        title: Text(localizations.settingsDebugModeTitle),
-                        subtitle: Text(localizations.settingsDebugModeDescription),
-                        iconColor: Theme.of(context).colorScheme.secondary,
-
-                        leading: Icon(Icons.bug_report_rounded, weight: 600),
-                        onTap: () {},
-                        trailing: Switch(
-                          // This bool value toggles the switch.
-                          value: model.debugMode,
-                          onChanged: (bool value) async {
-                            model.setDebugMode(!model.debugMode);
-                          },
-                        ),
-                      ),
-                      Divider(height: 1),
-                      ListTile(
-                        title: Text("Reset Data"),
-                        subtitle: Text("Something went wrong? Click here to reset data"),
-                        iconColor: Theme.of(context).colorScheme.secondary,
-
-                        leading: Icon(Symbols.delete, weight: 600),
-                        onTap: () {
-                         model.resetData();
-                        },
-
-                      ),
-                      Divider(height: 1),
-                      ListTile(
-                        title: Text(localizations.settingsTestingDataTitle),
-                        subtitle: Text(localizations.settingsTestingDataDescription),
-                        iconColor: Theme.of(context).colorScheme.secondary,
-                        leading: Icon(Icons.data_object_rounded, weight: 600),
-                        onTap: () {},
-                        trailing: Switch(
-                          // This bool value toggles the switch.
-                          value: model.useTestData,
-                          onChanged: (bool value) async {
-                            model.setUseTestData(!model.useTestData);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8.0,
-                    top: 8.0,
-                    bottom: 8.0,
-                  ),
-                  child: Text(
-                    localizations.settingsAbout,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                ),
-
-                Material(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(16),
-                  clipBehavior: Clip.antiAlias,
-
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        title: Text(localizations.settingsVersionTitle),
-                        subtitle: Text("v0.0.1-114514"),
-                        iconColor: Theme.of(context).colorScheme.secondary,
-                        leading: Icon(Icons.info_rounded, weight: 600),
-                        onTap: () {},
-                      ),
-                      Divider(height: 1),
-
-                      ListTile(
-                        title: Text(localizations.settingsDonateTitle),
-                        leading: Icon(Icons.favorite_rounded),
-                        iconColor: Theme.of(context).colorScheme.secondary,
-                        subtitle: Text(localizations.settingsDonateDescription),
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 3),
-              ],
+              ),
             ),
 
+            Material(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              clipBehavior: Clip.antiAlias,
+
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SettingsListTile(
+                    icon: Symbols.link,
+                    title: localizations.settingsAPIConfigurationTitle,
+                    subtitle: localizations.settingsAPIConfigurationDescription,
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 3),
+                  SettingsListTile(
+                    title: localizations.settingsDebugModeTitle,
+                    subtitle: localizations.settingsDebugModeDescription,
+                    icon: Symbols.bug_report_rounded,
+                    onTap: () async {
+                      await context.push("/settings/debug");
+                    },
+                    trailing: Switch(
+                      // This bool value toggles the switch.
+                      value: model.debugMode,
+                      onChanged: (bool value) async {
+                        model.setDebugMode(!model.debugMode);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 3),
+                  SettingsListTile(
+                    title: "Reset Data",
+                    subtitle: "Something went wrong? Click here to reset data",
+                    icon: Symbols.delete,
+                    onTap: () {
+                      model.resetData();
+                    },
+                  ),
+                  SizedBox(height: 3),
+                  SettingsListTile(
+                    title: localizations.settingsTestingDataTitle,
+                    subtitle: localizations.settingsTestingDataDescription,
+                    icon: Symbols.data_object_rounded,
+                    onTap: () {},
+                    trailing: Switch(
+                      // This bool value toggles the switch.
+                      value: model.useTestData,
+                      onChanged: (bool value) async {
+                        model.setUseTestData(!model.useTestData);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+              child: Text(
+                localizations.settingsAbout,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+
+            Material(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(16),
+              clipBehavior: Clip.antiAlias,
+
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SettingsListTile(
+                    title: localizations.settingsVersionTitle,
+                    subtitle: "v0.0.1-114514",
+                    icon: Symbols.info_rounded,
+                    onTap: () {},
+                  ),
+                  Divider(height: 1),
+
+                  SettingsListTile(
+                    title: localizations.settingsDonateTitle,
+                    icon: Symbols.favorite_rounded,
+                    subtitle: localizations.settingsDonateDescription,
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 3),
+          ],
+        ),
       ),
     );
   }

@@ -31,7 +31,7 @@ class SettingsLocalePage extends StatelessWidget {
       viewModelBuilder: () => SettingsLocalePageViewModel(),
       onViewModelReady: (model) => model.init(context),
       builder: (context, model, child) => SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
         child: Column(
           children: [
@@ -57,7 +57,7 @@ class SettingsLocalePage extends StatelessWidget {
             ),
             SizedBox(height: 15),
             Material(
-              color: Theme.of(context).colorScheme.surfaceContainer,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
               clipBehavior: Clip.antiAlias,
               child: Column(
@@ -73,18 +73,16 @@ class SettingsLocalePage extends StatelessWidget {
                           return Column(
                             children: [
                               ListTile(
+                                tileColor: Theme.of(context).colorScheme.surfaceContainer,
                                 title: Text(languageMap[item.languageCode] ?? "Unknown"),
                                 trailing: model.locale.toString() == item.toString() ? Icon(Symbols.check_rounded, weight: 300) : null,
                                 onTap: () {
-                                 model.updateLocale(item);
+                                 model.updateLocale(context,item);
                                   context.pop();
                                 },
                               ),
                               if (!isLastItem)
-                                Padding(
-                                  padding: EdgeInsets.only(left: 12, right: 12),
-                                  child: Divider(height: 0.25),
-                                ),
+                                SizedBox(height: 3),
                             ],
                           );
                         }

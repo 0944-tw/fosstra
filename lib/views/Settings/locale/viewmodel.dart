@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tra/services/LocaleProvider.dart';
 import 'package:tra/services/PreferenceService.dart';
 
 class SettingsLocalePageViewModel extends BaseViewModel {
@@ -12,10 +14,11 @@ class SettingsLocalePageViewModel extends BaseViewModel {
 
   Locale get locale => _locale;
 
-  void updateLocale(Locale locale) {
+  void updateLocale(BuildContext context,Locale locale) {
     _locale = locale;
     _prefs.setString("locale", "${locale.languageCode}");
     notifyListeners();
+    context.read<LocaleProvider>().setLocale(locale);
   }
   Future<void> init(context) async {
     setBusy(true);
@@ -28,6 +31,6 @@ class SettingsLocalePageViewModel extends BaseViewModel {
 
       );
     }
-    setBusy(false);
+     setBusy(false);
   }
 }
