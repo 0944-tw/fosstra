@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tra/views/HomePage/home_page.dart';
+import 'package:tra/views/Settings/debug/debug.dart';
 import 'package:tra/views/Settings/layout.dart';
 import 'package:tra/views/Settings/locale/page.dart';
 import 'package:tra/views/Settings/settings.dart';
-import 'package:tra/views/TRA_DailyTrainSchedule/TRA_TrainTimetables.dart';
-import 'package:tra/views/TRA_SearchPage/TRA_SearchPage.dart';
+import 'package:tra/views/TRA_Timetables///tra_timetables.dart';
+import 'package:tra/views/TRA_SearchPage/tra_searchpage.dart';
 
 class AppRouter {
   // GoRouter configuration
@@ -42,6 +43,11 @@ class AppRouter {
             path: 'locale',
             builder: (context, state) =>
                 SettingsLayout(title: "langauges", child: SettingsLocalePage()),
+          ),
+          GoRoute(
+            path: 'debug',
+            builder: (context, state) =>
+                SettingsLayout(title: "Debug", child: SettingsDebugPage()),
           ),
         ],
       ),

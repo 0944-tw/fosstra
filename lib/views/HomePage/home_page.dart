@@ -6,7 +6,7 @@ import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/views/HomePage/home_page_viewmodel.dart';
 import 'package:tra/views/LocationSelect/location_select.dart';
 import 'package:tra/views/Settings/settings.dart';
-import 'package:tra/views/TRA_SearchPage/TRA_SearchPage.dart';
+import 'package:tra/views/TRA_SearchPage/tra_searchpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,6 +55,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+
           appBar: AppBar(
             title: const Text("fosstra"),
             centerTitle: true,
@@ -73,70 +75,69 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 SizedBox(height: 3),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.surface,
+                Material(
+                  borderRadius: BorderRadius.circular(16),
+                  clipBehavior: Clip.antiAlias,
                   child: Column(
                     children: [
-                      Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              LocationTile(
-                                radius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
+                      Material(
+                        borderRadius: BorderRadius.circular(16),
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                LocationTile(
+                                  name: localizations.startStation,
+                                  description:
+                                      model.stationStartName ??
+                                      localizations.empty,
+                                  icon: Icons.flight_takeoff_rounded,
+                                  onClick: () {
+                                    model.selectCity(context, "start");
+                                  },
                                 ),
-                                name: localizations.startStation,
-                                description: model.stationStartName ?? localizations.empty,
-                                icon: Icons.flight_takeoff_rounded,
-                                onClick: () {
-                                  model.selectCity(context, "start");
-                                },
-                              ),
-                              SizedBox(height: 3),
-                              LocationTile(
-                                radius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(12),
-                                  bottomRight: Radius.circular(12),
+                                SizedBox(height: 3),
+                                LocationTile(
+                                  name: localizations.destinationStation,
+                                  description:
+                                      model.stationDestinationName ??
+                                      localizations.empty,
+                                  icon: Icons.flight_land_rounded,
+                                  onClick: () {
+                                    model.selectCity(context, "des");
+                                  },
                                 ),
-                                name: localizations.destinationStation,
-                                description:
-                                    model.stationDestinationName ?? localizations.empty,
-                                icon: Icons.flight_land_rounded,
-                                onClick: () {
-                                  model.selectCity(context, "des");
-                                },
-                              ),
-                            ],
-                          ),
-                          Positioned(
-                            child: Padding(
-                              padding: EdgeInsetsGeometry.all(4),
-                              child: Material(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(1114),
-                                ),
-                                child: InkWell(
-                                  onTap: () => model.Swap(),
-
+                              ],
+                            ),
+                            Positioned(
+                              child: Padding(
+                                padding: EdgeInsetsGeometry.all(4),
+                                child: Material(
                                   borderRadius: BorderRadius.all(
-                                    Radius.circular(114514),
+                                    Radius.circular(1114),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsetsGeometry.all(8),
-                                    child: Icon(Icons.swap_vert_rounded,),
+                                  child: InkWell(
+                                    onTap: () => model.Swap(),
+
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(114514),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsGeometry.all(8),
+                                      child: Icon(Icons.swap_vert_rounded),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+
                       SizedBox(height: 5),
                       Row(
                         children: [
@@ -179,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
+
                 SizedBox(height: 5),
 
                 FilledButton(
@@ -191,15 +193,22 @@ class _HomePageState extends State<HomePage> {
                         // user must tap button!
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title:   Text(localizations.stationNotSelectedAlertTitle),
+                            title: Text(
+                              localizations.stationNotSelectedAlertTitle,
+                            ),
                             content: SingleChildScrollView(
                               child: ListBody(
-                                children: <Widget>[Text(localizations.stationNotSelectedAlertDescription)],
+                                children: <Widget>[
+                                  Text(
+                                    localizations
+                                        .stationNotSelectedAlertDescription,
+                                  ),
+                                ],
                               ),
                             ),
                             actions: <Widget>[
                               TextButton(
-                                child:   Text(localizations.close),
+                                child: Text(localizations.close),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -226,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       LocationTile(
-                        radius: BorderRadius.all(Radius.circular(12)),
+                        radius: BorderRadius.all(Radius.circular(16)),
                         name: localizations.expressTrainTicketOrderTitle,
                         description: "Coming Soon™️ ️",
                         icon: Icons.train,
@@ -259,7 +268,7 @@ class _HomePageState extends State<HomePage> {
 
  */
 class LocationTile extends StatelessWidget {
-  final BorderRadius radius;
+  final BorderRadius? radius;
   final String name;
   final String description;
   final IconData icon;
@@ -268,7 +277,7 @@ class LocationTile extends StatelessWidget {
 
   const LocationTile({
     super.key,
-    required this.radius,
+    this.radius,
     required this.name,
     required this.description,
     required this.icon,
@@ -287,23 +296,23 @@ class LocationTile extends StatelessWidget {
 
         borderRadius: radius,
         child: InkWell(
-          borderRadius: radius,
+          borderRadius: radius ?? null,
 
-          onTap: onClick != null ? () => onClick!() : null,
 
           child: ListTile(
+            onTap: onClick != null ? () => onClick!() : null,
             contentPadding: EdgeInsets.only(left: 12),
             leading: Container(
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
               child: Icon(this.icon, color: Theme.of(context).iconTheme.color),
             ),
-            title: Text(name),
+            title: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(description),
           ),
         ),

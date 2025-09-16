@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/views/LocationSelect/location_select.dart';
-import 'package:tra/views/TRA_SearchPage/TRA_SearchPage.dart';
+import 'package:tra/views/TRA_SearchPage/tra_searchpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageViewModel extends BaseViewModel {
