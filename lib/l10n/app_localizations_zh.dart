@@ -112,47 +112,47 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tarokoExpress => '太魯閣號';
 
   @override
-  String get settingsGeneral => 'General';
+  String get settingsGeneral => '一般';
 
   @override
   String get settingsMaterialYouTitle => 'Material You';
 
   @override
-  String get settingsMaterialYouDescription => 'Use System Color';
+  String get settingsMaterialYouDescription => '使用系統色彩';
 
   @override
-  String get settingsLanguageTitle => 'Language';
+  String get settingsLanguageTitle => '語言';
 
   @override
-  String get settingsAdvanced => 'Advanced';
+  String get settingsAdvanced => '進階';
 
   @override
-  String get settingsAPIConfigurationTitle => 'API Configuration';
+  String get settingsAPIConfigurationTitle => 'API 設定';
 
   @override
-  String get settingsAPIConfigurationDescription => 'Modify API Configuration (Token,API URL)';
+  String get settingsAPIConfigurationDescription => '修改 API 設定 (Token, API URL)';
 
   @override
-  String get settingsDebugModeTitle => 'Debug Mode';
+  String get settingsDebugModeTitle => '偵錯模式';
 
   @override
-  String get settingsDebugModeDescription => 'Debug Mode';
+  String get settingsDebugModeDescription => '偵錯模式';
 
   @override
-  String get settingsTestingDataTitle => 'Testing Data';
+  String get settingsTestingDataTitle => '測試資料';
 
   @override
-  String get settingsTestingDataDescription => 'This will use testing data instead of real data';
+  String get settingsTestingDataDescription => '這將會使用測試資料而非真實資料';
 
   @override
-  String get settingsAbout => 'About';
+  String get settingsAbout => '關於';
 
   @override
-  String get settingsVersionTitle => 'Version';
+  String get settingsVersionTitle => '版本';
 
   @override
-  String get settingsDonateTitle => 'Donate';
+  String get settingsDonateTitle => '贊助';
 
   @override
-  String get settingsDonateDescription => 'This project costs 200 dolla per month (6.5 credits of maimai)';
+  String get settingsDonateDescription => '這個專案每月花費 200 美元 (6.5 道 maimai)';
 }
