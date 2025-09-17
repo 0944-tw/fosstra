@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/route.dart';
 import 'package:tra/services/LocaleProvider.dart';
 import 'package:tra/services/PreferenceService.dart';
 import 'package:provider/provider.dart';
-import 'package:tra/views/HomePage/home_page.dart';
 
 // 2. Make main async to await SharedPreferences
 Future<void> main() async {

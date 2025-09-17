@@ -1,9 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/views/TRA_Timetables//tra_timetables.dart';

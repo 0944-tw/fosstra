@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:modern_dialog/modern_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/views/HomePage/home_page_viewmodel.dart';
-import 'package:tra/views/LocationSelect/location_select.dart';
-import 'package:tra/views/Settings/settings.dart';
-import 'package:tra/views/TRA_SearchPage/tra_searchpage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

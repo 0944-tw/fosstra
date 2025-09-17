@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-import 'package:modern_dialog/modern_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
-import 'package:tra/views/LocationSelect/location_select.dart';
 import 'package:tra/views/Settings/settings_viewmodel.dart';
-import 'package:tra/views/TRA_SearchPage/tra_searchpage.dart';
 import 'package:tra/widgets/SettingsListTile.dart';
 
 class SettingsIndex extends StatelessWidget {

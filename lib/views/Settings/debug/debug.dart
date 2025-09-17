@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
-import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
-import 'package:tra/views/Settings/locale/viewmodel.dart';
 
 class SettingsDebugPage extends StatelessWidget {
 

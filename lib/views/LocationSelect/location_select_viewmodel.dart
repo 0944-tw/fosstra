@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:http/http.dart' as http;
-import 'package:tra/main.dart';
 
 class LocationSelectViewModel extends BaseViewModel {
 
