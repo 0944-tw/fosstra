@@ -4,9 +4,11 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/views/Settings/settings_viewmodel.dart';
-import 'package:tra/widgets/SettingsListTile.dart';
+import 'package:tra/widgets/settings_listtile.dart';
 
 class SettingsIndex extends StatelessWidget {
+  const SettingsIndex({super.key});
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -75,7 +77,9 @@ class SettingsIndex extends StatelessWidget {
                     subtitle: languageMap[model.locale.languageCode]!,
                     onTap: () async {
                       await context.push("/settings/locale");
-                      model.init(context);
+                      if (context.mounted) {
+                        model.init(context);
+                      }
                     },
                   ),
                 ],

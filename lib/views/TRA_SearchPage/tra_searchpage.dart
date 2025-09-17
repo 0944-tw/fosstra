@@ -21,11 +21,10 @@ class TRASearchPage extends StatelessWidget {
   });
 
   List<dynamic> trainTimeTables = [];
-  final Map<int, GlobalKey> _itemKeys = {};
 
   int closetIndex = 0;
-  final GlobalKey _scrollViewKey = GlobalKey();
-  final ScrollController _scrollController = ScrollController();
+  // final GlobalKey _scrollViewKey = GlobalKey();
+  // final ScrollController _scrollController = ScrollController();
 
   String currentTime = "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
 
@@ -142,8 +141,8 @@ class TRASearchPage extends StatelessWidget {
                           int index = entry.key;
                           var train = entry.value;
 
-                          int Direction = train["TrainInfo"]['Direction'];
-                          int TrainType = int.parse(
+                          int direction = train["TrainInfo"]['Direction'];
+                          int trainType = int.parse(
                             train["TrainInfo"]["TrainTypeCode"],
                           );
                           bool missed =
@@ -168,7 +167,7 @@ class TRASearchPage extends StatelessWidget {
                                   timeStart:
                                       train['StopTimes'][0]['DepartureTime'],
                                   price: vm
-                                      .pricesByDirection[Direction]![TrainType]
+                                      .pricesByDirection[direction]![trainType]
                                       .toString(),
                                   trainNo: train["TrainInfo"]["TrainNo"],
                                   trainType: trainTypeName(

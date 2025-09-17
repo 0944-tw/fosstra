@@ -16,7 +16,7 @@ class AppRouter {
       GoRoute(
         path: "/TRA/train/:id",
         builder: (context, state) =>
-            DailyTrainScheduleTRA(trainTypeID: state.pathParameters['id']),
+            TRATimetables(trainTypeID: state.pathParameters['id']),
       ),
       GoRoute(
         path: "/TRA/search",

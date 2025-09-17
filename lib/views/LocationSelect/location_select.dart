@@ -8,7 +8,7 @@ import 'package:tra/views/LocationSelect/location_select_viewmodel.dart';
 class LocationSelectView extends StatelessWidget {
   final String title;
 
-  const LocationSelectView({Key? key, required this.title}) : super(key: key);
+  const LocationSelectView({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {

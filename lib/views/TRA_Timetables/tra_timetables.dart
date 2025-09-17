@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
@@ -7,24 +6,22 @@ import 'package:tra/views/TRA_Timetables//tra_timetables_viewmodel.dart';
 int toMinutes(String time) {
   final parts = time.split(':');
   final hours = int.parse(parts[0]);
-  // Pad minutes with leading zero if necessary
   final minutesStr = parts[1].padLeft(2, '0');
   final minutes = int.parse(minutesStr);
   return hours * 60 + minutes;
 }
 
-class DailyTrainScheduleTRA extends StatelessWidget {
-  final Map<int, GlobalKey> _itemKeys = {};
+class TRATimetables extends StatelessWidget {
   final dynamic trainTypeID;
 
-  DailyTrainScheduleTRA({super.key, required this.trainTypeID});
+  const TRATimetables({super.key, required this.trainTypeID});
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    return ViewModelBuilder<DailyTrainScheduleTRA_ViewModel>.reactive(
-      viewModelBuilder: () => DailyTrainScheduleTRA_ViewModel(),
+    return ViewModelBuilder<TRATimetablesViewmodel>.reactive(
+      viewModelBuilder: () => TRATimetablesViewmodel(),
       onViewModelReady: (vm) => vm.fetchTimetables(int.parse(trainTypeID)),
       builder: (context, vm, child) {
         final locale = vm.getLanguageCode(Localizations.localeOf(context));
@@ -52,7 +49,7 @@ class DailyTrainScheduleTRA extends StatelessWidget {
                             bottom: 8.0,
                             left: 16.0,
                             right: 16.0,
-                          ), // Example
+                          ),
                           title: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class UnexpectedErrorDialog extends StatelessWidget {
-  final String Error;
+  final String errorMessage;
 
-  const UnexpectedErrorDialog({super.key, required this.Error});
+  const UnexpectedErrorDialog({super.key, required this.errorMessage});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       icon: const Icon(Icons.error),
       title: const Text('未預期的錯誤'),
-      content: Text(Error),
+      content: Text(errorMessage),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         TextButton(

@@ -27,8 +27,8 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
           onDestinationSelected: (int index) {
             setState(() {
-              currentPageIndex = index;
-            });
+                currentPageIndex = index;
+              });
           },
           selectedIndex: currentPageIndex,
 
@@ -92,8 +92,8 @@ class _HomePageState extends State<HomePage> {
                                 LocationTile(
                                   name: localizations.startStation,
                                   description:
-                                      model.stationStartName ??
-                                      localizations.empty,
+                                  model.stationStartName ??
+                                    localizations.empty,
                                   icon: Icons.flight_takeoff_rounded,
                                   onClick: () {
                                     model.selectCity(context, "start");
@@ -103,8 +103,8 @@ class _HomePageState extends State<HomePage> {
                                 LocationTile(
                                   name: localizations.destinationStation,
                                   description:
-                                      model.stationDestinationName ??
-                                      localizations.empty,
+                                  model.stationDestinationName ??
+                                    localizations.empty,
                                   icon: Icons.flight_land_rounded,
                                   onClick: () {
                                     model.selectCity(context, "des");
@@ -116,17 +116,11 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: EdgeInsetsGeometry.all(4),
                                 child: Material(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainer,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(1114),
-                                  ),
+                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                  borderRadius: BorderRadius.all(Radius.circular(1114)),
                                   child: InkWell(
-                                    onTap: () => model.Swap(),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(114514),
-                                    ),
+                                    onTap: () => model.swap(),
+                                    borderRadius: BorderRadius.all(Radius.circular(1114)),
                                     child: Padding(
                                       padding: EdgeInsetsGeometry.all(8),
                                       child: Icon(Icons.swap_vert_rounded),
@@ -147,13 +141,10 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: EdgeInsetsGeometry.only(right: 1),
                               child: LocationTile(
-                                radius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                ),
+                                radius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
                                 name: localizations.date,
                                 description:
-                                    '${model.selectedDate?.toString().split(' ')[0] ?? DateTime.now().toString().split(' ')[0]}',
+                                model.selectedDate?.toString().split(' ')[0] ?? DateTime.now().toString().split(' ')[0],
                                 icon: Icons.calendar_today,
                                 onClick: () => model.updateDateTime(context),
                               ),
@@ -164,13 +155,9 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: EdgeInsetsGeometry.only(left: 1),
                               child: LocationTile(
-                                radius: BorderRadius.only(
-                                  topRight: Radius.circular(12),
-                                  bottomRight: Radius.circular(12),
-                                ),
+                                radius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
                                 name: localizations.time,
-                                description:
-                                    '${model.selectedTimeOfDay?.hour ?? TimeOfDay.now().hour}:${model.selectedTimeOfDay?.minute ?? TimeOfDay.now().minute}',
+                                description: '${model.selectedTimeOfDay?.hour ?? TimeOfDay.now().hour}:${model.selectedTimeOfDay?.minute ?? TimeOfDay.now().minute}',
                                 icon: Icons.timer,
                                 onClick: () => model.updateTimeOfDay(context),
                               ),
@@ -187,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                 FilledButton(
                   onPressed: () {
                     if (model.stationDestination == null ||
-                        model.stationStart == null) {
+                      model.stationStart == null) {
                       showDialog<void>(
                         context: context,
                         barrierDismissible: false,
@@ -202,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                                 children: <Widget>[
                                   Text(
                                     localizations
-                                        .stationNotSelectedAlertDescription,
+                                      .stationNotSelectedAlertDescription,
                                   ),
                                 ],
                               ),
@@ -221,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                       return;
                     }
 
-                    model.Search(context);
+                    model.search(context);
                   },
                   style: FilledButton.styleFrom(
                     minimumSize: Size(double.infinity, 50),
@@ -294,7 +281,7 @@ class LocationTile extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: radius,
         child: InkWell(
-          borderRadius: radius ?? null,
+          borderRadius: radius,
 
           child: ListTile(
             onTap: onClick != null ? () => onClick!() : null,
@@ -307,7 +294,7 @@ class LocationTile extends StatelessWidget {
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
-              child: Icon(this.icon, color: Theme.of(context).iconTheme.color),
+              child: Icon(icon, color: Theme.of(context).iconTheme.color),
             ),
             title: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(description),

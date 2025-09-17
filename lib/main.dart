@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/route.dart';
-import 'package:tra/services/LocaleProvider.dart';
-import 'package:tra/services/PreferenceService.dart';
+import 'package:tra/services/locale_provider.dart';
+import 'package:tra/services/preference_service.dart';
 import 'package:provider/provider.dart';
 
 // 2. Make main async to await SharedPreferences

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -7,6 +6,8 @@ import 'package:tra/l10n/app_localizations.dart';
 import 'package:tra/views/Settings/locale/viewmodel.dart';
 
 class SettingsLocalePage extends StatelessWidget {
+  const SettingsLocalePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +25,6 @@ class SettingsLocalePage extends StatelessWidget {
       'pt': 'Português', // Portuguese
     };
 
-    final localizations = AppLocalizations.of(context)!;
-    Locale locale = Localizations.localeOf(context);
     List<Locale> localeList = AppLocalizations.supportedLocales;
     return ViewModelBuilder<SettingsLocalePageViewModel>.reactive(
       viewModelBuilder: () => SettingsLocalePageViewModel(),

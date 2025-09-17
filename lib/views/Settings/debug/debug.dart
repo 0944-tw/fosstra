@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tra/l10n/app_localizations.dart';
 
 class SettingsDebugPage extends StatelessWidget {
+  const SettingsDebugPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
 
-    final localizations = AppLocalizations.of(context)!;
-    Locale locale = Localizations.localeOf(context);
-    List<Locale> localeList = AppLocalizations.supportedLocales;
     ColorScheme color = Theme.of(context).colorScheme;
     return  SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),

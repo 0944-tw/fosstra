@@ -1,11 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tra/services/LocaleProvider.dart';
-import 'package:tra/services/PreferenceService.dart';
+import 'package:tra/services/locale_provider.dart';
+import 'package:tra/services/preference_service.dart';
 
 class SettingsLocalePageViewModel extends BaseViewModel {
   final SharedPreferences _prefs = PreferenceService().instance;
@@ -16,7 +14,7 @@ class SettingsLocalePageViewModel extends BaseViewModel {
 
   void updateLocale(BuildContext context,Locale locale) {
     _locale = locale;
-    _prefs.setString("locale", "${locale.languageCode}");
+    _prefs.setString("locale", locale.languageCode);
     notifyListeners();
     context.read<LocaleProvider>().setLocale(locale);
   }

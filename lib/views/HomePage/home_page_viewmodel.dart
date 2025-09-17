@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/views/LocationSelect/location_select.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageViewModel extends BaseViewModel {
-  SharedPreferences? _perfs;
-
   dynamic stationStart;
   dynamic stationDestination;
   DateTime? selectedDate;
@@ -64,7 +61,7 @@ class HomePageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void Swap() {
+  void swap() {
     var temp = stationStart;
     var temp2 = stationStartName;
     stationStart = stationDestination;
@@ -74,7 +71,7 @@ class HomePageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> Search(BuildContext context) async {
+  Future<void> search(BuildContext context) async {
     context.push(
       "/TRA/search",
       extra: {

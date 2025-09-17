@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tra/services/PreferenceService.dart';
+import 'package:tra/services/preference_service.dart';
 
 class SettingsViewModel extends BaseViewModel {
   final SharedPreferences _prefs = PreferenceService().instance;
@@ -59,7 +59,7 @@ class SettingsViewModel extends BaseViewModel {
         context: context,
         barrierDismissible: false, //
         builder: (BuildContext context) {
-          Locale? SelectedLocale;
+          Locale? selectedLocale ;
           return AlertDialog(
             title: const Text('Select Language'),
             content: SingleChildScrollView(
@@ -69,19 +69,19 @@ class SettingsViewModel extends BaseViewModel {
                     title: const Text('English'),
                     value: Locale.fromSubtags(countryCode: "us"),
                     onChanged: (Locale? value) {
-                      SelectedLocale = value;
+                      selectedLocale = value;
                       Navigator.of(context).pop();
                     },
-                    groupValue: SelectedLocale,
+                    groupValue: selectedLocale,
                   ),
                   RadioListTile<Locale>(
                     title: const Text('繁體中文'),
                     value: Locale.fromSubtags(countryCode: "zh"),
                     onChanged: (Locale? value) {
-                      SelectedLocale = value;
+                      selectedLocale = value;
                       Navigator.of(context).pop();
                     },
-                    groupValue: SelectedLocale,
+                    groupValue: selectedLocale,
                   ),
                 ],
               ),

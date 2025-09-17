@@ -21,7 +21,7 @@ class TRASearchPageViewModel extends BaseViewModel {
     return hours * 60 + minutes;
   }
 
-  int getTrainPrice(int TrainType) {
+  int getTrainPrice(int trainType) {
     return 0;
   }
 
@@ -47,13 +47,13 @@ class TRASearchPageViewModel extends BaseViewModel {
     if (priceResponse.statusCode == 200) {
       final Map<String, dynamic> priceData = json.decode(priceResponse.body);
       for (int i = 0; i < priceData["TrainFares"].length; i++) {
-        var Fare = priceData["TrainFares"][i];
-        var Direction = Fare["Direction"] as int;
-        if (!pricesByDirection.containsKey(Direction)) {
-          pricesByDirection[Direction] = {};
+        var fare = priceData["TrainFares"][i];
+        var direction = fare["Direction"] as int;
+        if (!pricesByDirection.containsKey(direction)) {
+          pricesByDirection[direction] = {};
         }
-        pricesByDirection[Direction]![Fare["TrainType"]] =
-            Fare["Fares"][0]["Price"];
+        pricesByDirection[direction]![fare["TrainType"]] =
+            fare["Fares"][0]["Price"];
       }
     }
     if (response.statusCode == 200) {
