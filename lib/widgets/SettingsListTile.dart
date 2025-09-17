@@ -26,7 +26,7 @@ class SettingsListTile extends StatelessWidget {
      // subtitle: Text(subtitle),
       trailing: trailing,
       onTap: onTap,
-      tileColor: Theme.of(context).colorScheme.surfaceContainer,
+      tileColor: Theme.of(context).colorScheme.surface,
       leading: icon != null
           ? Icon(
               icon,

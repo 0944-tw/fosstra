@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       viewModelBuilder: () => HomePageViewModel(),
       builder: (context, model, child) => Scaffold(
         bottomNavigationBar: NavigationBar(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
           onDestinationSelected: (int index) {
             setState(() {
               currentPageIndex = index;
@@ -55,11 +56,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
 
           appBar: AppBar(
             title: const Text("fosstra"),
             centerTitle: true,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings_rounded),
@@ -77,6 +79,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SizedBox(height: 3),
                 Material(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(16),
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -84,6 +87,7 @@ class _HomePageState extends State<HomePage> {
                       Material(
                         borderRadius: BorderRadius.circular(16),
                         clipBehavior: Clip.antiAlias,
+                        color: Theme.of(context).colorScheme.surfaceContainer,
                         child: Stack(
                           alignment: Alignment.centerRight,
                           children: [
@@ -117,12 +121,14 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: EdgeInsetsGeometry.all(4),
                                 child: Material(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(1114),
                                   ),
                                   child: InkWell(
                                     onTap: () => model.Swap(),
-
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(114514),
                                     ),
@@ -290,14 +296,10 @@ class LocationTile extends StatelessWidget {
     return Opacity(
       opacity: disabled == true ? 0.5 : 1,
       child: Material(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white10
-            : Color.fromARGB(5, 0, 0, 0),
-
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: radius,
         child: InkWell(
           borderRadius: radius ?? null,
-
 
           child: ListTile(
             onTap: onClick != null ? () => onClick!() : null,
@@ -306,7 +308,7 @@ class LocationTile extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondaryContainer,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.all(Radius.circular(16)),
               ),

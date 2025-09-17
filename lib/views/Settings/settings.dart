@@ -51,6 +51,7 @@ class SettingsIndex extends StatelessWidget {
             Material(
               borderRadius: BorderRadius.circular(16),
               clipBehavior: Clip.antiAlias,
+              color: Theme.of(context).colorScheme.surfaceContainer,
 
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -97,7 +98,7 @@ class SettingsIndex extends StatelessWidget {
             ),
 
             Material(
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.surfaceContainer,
               borderRadius: BorderRadius.circular(16),
               clipBehavior: Clip.antiAlias,
 
@@ -180,8 +181,7 @@ class SettingsIndex extends StatelessWidget {
                     icon: Symbols.info_rounded,
                     onTap: () {},
                   ),
-                  Divider(height: 1),
-
+                  SizedBox(height: 3,),
                   SettingsListTile(
                     title: localizations.settingsDonateTitle,
                     icon: Symbols.favorite_rounded,

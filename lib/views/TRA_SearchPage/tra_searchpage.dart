@@ -74,6 +74,7 @@ class TRASearchPage extends StatelessWidget {
         final locale = vm.getLanguageCode(Localizations.localeOf(context));
 
         return Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -82,7 +83,9 @@ class TRASearchPage extends StatelessWidget {
                       expandedHeight: 200.0,
                       floating: false,
                       pinned: true,
-
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainer,
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         titlePadding: const EdgeInsets.only(
@@ -132,7 +135,7 @@ class TRASearchPage extends StatelessWidget {
                     controller: vm.scrollController,
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Material(
-                      color: Theme.of(context).colorScheme.surface,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
                       borderRadius: BorderRadius.circular(16),
                       clipBehavior: Clip.antiAlias,
                       child: Column(
@@ -159,7 +162,7 @@ class TRASearchPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(4),
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.surfaceContainer,
+                                ).colorScheme.surface,
                                 key: vm.itemKeys[index],
                                 child: TrainStatusCard(
                                   recommended: index == vm.closetIndex,

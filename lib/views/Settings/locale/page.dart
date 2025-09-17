@@ -57,7 +57,7 @@ class SettingsLocalePage extends StatelessWidget {
             ),
             SizedBox(height: 15),
             Material(
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.surfaceContainer,
               borderRadius: BorderRadius.circular(16),
               clipBehavior: Clip.antiAlias,
               child: Column(
@@ -73,7 +73,7 @@ class SettingsLocalePage extends StatelessWidget {
                           return Column(
                             children: [
                               ListTile(
-                                tileColor: Theme.of(context).colorScheme.surfaceContainer,
+                                tileColor: Theme.of(context).colorScheme.surface,
                                 title: Text(languageMap[item.languageCode] ?? "Unknown"),
                                 trailing: model.locale.toString() == item.toString() ? Icon(Symbols.check_rounded, weight: 300) : null,
                                 onTap: () {

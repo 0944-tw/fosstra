@@ -20,6 +20,7 @@ class LocationSelectView extends StatelessWidget {
       onViewModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(title: Text(localizations.select)),
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         body: model.isBusy
             ? const Center(child: CircularProgressIndicator())
             : Row(
