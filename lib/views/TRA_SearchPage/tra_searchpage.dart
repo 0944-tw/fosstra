@@ -1,23 +1,24 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tra/l10n/app_localizations.dart';
+import 'package:tra/models/TDX.dart';
 import 'package:tra/views/TRA_Timetables//tra_timetables.dart';
 import 'package:tra/views/TRA_SearchPage/tra_searchpage_viewmodel.dart';
 
 class TRASearchPage extends StatelessWidget {
-  final dynamic startStation;
-  final dynamic desStation;
-  final dynamic dateTime;
-  final dynamic timeOfDay;
+  final Station startStation;
+  final Station desStation;
+
+  final DateTime? dateTime;
+  final TimeOfDay? timeOfDay;
 
   TRASearchPage({
     super.key,
     required this.startStation,
     required this.desStation,
-    required this.dateTime,
-    required this.timeOfDay,
+    this.dateTime,
+    this.timeOfDay,
   });
 
   List<dynamic> trainTimeTables = [];
@@ -62,8 +63,8 @@ class TRASearchPage extends StatelessWidget {
       viewModelBuilder: () => TRASearchPageViewModel(),
       onViewModelReady: (vm) => vm.fetchTrain(
         context,
-        startStation["StationID"],
-        desStation["StationID"],
+        startStation.stationID,
+        desStation.stationID,
         dateTime.toString().split(' ')[0],
       ),
       builder: (context, vm, child) {
@@ -94,8 +95,8 @@ class TRASearchPage extends StatelessWidget {
                           children: [
                             Text(
                               localizations.routeDescription(
-                                startStation["StationName"][locale],
-                                desStation["StationName"][locale],
+                                startStation.stationName.en,
+                                desStation.stationName.en,
                               ),
                               style: TextStyle(
                                 color: Theme.of(
@@ -156,9 +157,7 @@ class TRASearchPage extends StatelessWidget {
                             children: [
                               Material(
                                 borderRadius: BorderRadius.circular(4),
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.surface,
+                                color: Theme.of(context).colorScheme.surface,
                                 key: vm.itemKeys[index],
                                 child: TrainStatusCard(
                                   recommended: index == vm.closetIndex,
@@ -221,7 +220,9 @@ class TrainStatusCard extends StatelessWidget {
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
         side: BorderSide(
-          color: recommended ? Theme.of(context).colorScheme.primary : Colors.transparent,
+          color: recommended
+              ? Theme.of(context).colorScheme.primary
+              : Colors.transparent,
           width: 2.0,
         ),
       ),
@@ -240,7 +241,6 @@ class TrainStatusCard extends StatelessWidget {
                   flex: 6,
                   child: Column(
                     children: [
-                      
                       Row(
                         children: [
                           Text(

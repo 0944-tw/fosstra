@@ -22,6 +22,9 @@ class _HomePageState extends State<HomePage> {
 
     return ViewModelBuilder<HomePageViewModel>.reactive(
       viewModelBuilder: () => HomePageViewModel(),
+      onViewModelReady: (viewModel) => {
+        viewModel.init()
+      },
       builder: (context, model, child) => Scaffold(
         bottomNavigationBar: NavigationBar(
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
@@ -92,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                                 LocationTile(
                                   name: localizations.startStation,
                                   description:
-                                  model.stationStartName ??
+                                  model.stationStart?.stationName.toString() ??
                                     localizations.empty,
                                   icon: Icons.flight_takeoff_rounded,
                                   onClick: () {
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                                 LocationTile(
                                   name: localizations.destinationStation,
                                   description:
-                                  model.stationDestinationName ??
+                                  model.stationDestination?.stationName.toString() ??
                                     localizations.empty,
                                   icon: Icons.flight_land_rounded,
                                   onClick: () {

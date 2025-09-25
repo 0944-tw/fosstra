@@ -1,16 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tra/models/TDX.dart';
+import 'package:tra/services/preference_service.dart';
 import 'package:tra/views/LocationSelect/location_select.dart';
 
 class HomePageViewModel extends BaseViewModel {
-  dynamic stationStart;
-  dynamic stationDestination;
+  final SharedPreferences _prefs = PreferenceService().instance;
+
+  Station? stationStart;
+  Station? stationDestination;
+
   DateTime? selectedDate;
   TimeOfDay? selectedTimeOfDay;
-
-  String? stationStartName;
-  String? stationDestinationName;
 
   Future<void> updateDateTime(dynamic context) async {
     DateTime? time = await showDatePicker(
@@ -51,34 +56,52 @@ class HomePageViewModel extends BaseViewModel {
 
     if (result != null) {
       if (type == "start") {
-        stationStart = result;
-        stationStartName = result["StationName"][localizedName(loc)];
+        stationStart = Station.fromJson(result);
+        // stationStartName = result["StationName"][localizedName(loc)];
       } else {
-        stationDestination = result;
-        stationDestinationName = result["StationName"][localizedName(loc)];
+        stationDestination = Station.fromJson(result);
+        // stationDestinationName = result["StationName"][localizedName(loc)];
       }
     }
     notifyListeners();
   }
 
+  void init() async {
+    String? lastStationStart = _prefs.getString("lastStationStart");
+    String? lastStationDestination = _prefs.getString("lastStationDestination");
+
+    if (lastStationStart != null) {
+      stationStart = Station.fromJson(json.decode(lastStationStart));
+    }
+    if (lastStationDestination != null) {
+      stationDestination = Station.fromJson(
+        json.decode(lastStationDestination),
+      );
+    }
+  }
+
   void swap() {
     var temp = stationStart;
-    var temp2 = stationStartName;
+    // var temp2 = stationStartName;
     stationStart = stationDestination;
     stationDestination = temp;
-    stationStartName = stationDestinationName;
-    stationDestinationName = temp2;
+    // stationStartName = stationDestinationName;
     notifyListeners();
   }
 
   Future<void> search(BuildContext context) async {
+    _prefs.setString("lastStationStart", json.encode(stationStart?.toJson()));
+    _prefs.setString(
+      "lastStationDestination",
+      json.encode(stationDestination?.toJson()),
+    );
     context.push(
       "/TRA/search",
       extra: {
         "date": selectedDate ?? DateTime.now(), // "yy
         "time": selectedTimeOfDay ?? TimeOfDay.now(), // yy-MM-dd" format
         "start": stationStart,
-        "destination": stationDestination
+        "destination": stationDestination,
       },
     );
   }
