@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stacked/stacked.dart';
@@ -13,13 +15,7 @@ class TRASearchPage extends StatelessWidget {
   final DateTime? dateTime;
   final TimeOfDay? timeOfDay;
 
-  TRASearchPage({
-    super.key,
-    required this.startStation,
-    required this.desStation,
-    this.dateTime,
-    this.timeOfDay,
-  });
+  TRASearchPage({super.key, required this.startStation, required this.desStation, this.dateTime, this.timeOfDay});
 
   List<dynamic> trainTimeTables = [];
 
@@ -61,71 +57,50 @@ class TRASearchPage extends StatelessWidget {
 
     return ViewModelBuilder<TRASearchPageViewModel>.reactive(
       viewModelBuilder: () => TRASearchPageViewModel(),
-      onViewModelReady: (vm) => vm.fetchTrain(
-        context,
-        startStation.stationID,
-        desStation.stationID,
-        dateTime.toString().split(' ')[0],
-      ),
+      onViewModelReady: (vm) =>
+          vm.fetchTrain(context, startStation.stationID, desStation.stationID, dateTime.toString().split(' ')[0]),
       builder: (context, vm, child) {
         final locale = vm.getLanguageCode(Localizations.localeOf(context));
-
+        
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      expandedHeight: 200.0,
-                      floating: false,
-                      pinned: true,
-                      backgroundColor: Theme.of(
-                        context,
-                      ).colorScheme.surfaceContainer,
-                      flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: true,
-                        titlePadding: const EdgeInsets.only(
-                          left: 8.0,
-                          bottom: 8.0,
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  expandedHeight: 200.0,
+                  floating: false,
+                  pinned: true,
+                  backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    titlePadding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                    title: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          // 這段是屎
+                          localizations.routeDescription(locale == "Zh_tw" ? startStation.stationName.zhTw : startStation.stationName.en , locale == "Zh_tw" ? desStation.stationName.zhTw : desStation.stationName.en),
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.titleLarge?.color,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        title: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              localizations.routeDescription(
-                                startStation.stationName.en,
-                                desStation.stationName.en,
-                              ),
-                              style: TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.titleLarge?.color,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              vm.isBusy
-                                  ? localizations.loading
-                                  : localizations.searchResultsFound(
-                                      vm.trainTimeTables.length,
-                                    ),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.displayMedium?.color,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          vm.isBusy
+                              ? localizations.loading
+                              : localizations.searchResultsFound(vm.trainTimeTables.length),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Theme.of(context).textTheme.displayMedium?.color, fontSize: 12.0),
                         ),
-                      ),
+                      ],
                     ),
-                  ];
-                },
+                  ),
+                ),
+              ];
+            },
             body: vm.isBusy
                 ? const Center(child: CircularProgressIndicator())
                 : SingleChildScrollView(
@@ -136,22 +111,13 @@ class TRASearchPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       clipBehavior: Clip.antiAlias,
                       child: Column(
-                        children: vm.trainTimeTables.asMap().entries.map((
-                          entry,
-                        ) {
+                        children: vm.trainTimeTables.asMap().entries.map((entry) {
                           int index = entry.key;
                           var train = entry.value;
 
                           int direction = train["TrainInfo"]['Direction'];
-                          int trainType = int.parse(
-                            train["TrainInfo"]["TrainTypeCode"],
-                          );
-                          bool missed =
-                              vm.toMinutes(
-                                    train['StopTimes'][0]['DepartureTime'],
-                                  ) -
-                                  vm.toMinutes(vm.currentTime) <
-                              0;
+                          int trainType = int.parse(train["TrainInfo"]["TrainTypeCode"]);
+                          bool missed = vm.toMin(train['StopTimes'][0]['DepartureTime']) - vm.toMin(vm.currentTime) < 0;
 
                           return Column(
                             children: [
@@ -161,21 +127,13 @@ class TRASearchPage extends StatelessWidget {
                                 key: vm.itemKeys[index],
                                 child: TrainStatusCard(
                                   recommended: index == vm.closetIndex,
-                                  timeDes:
-                                      train['StopTimes'][1]["DepartureTime"],
-                                  timeStart:
-                                      train['StopTimes'][0]['DepartureTime'],
-                                  price: vm
-                                      .pricesByDirection[direction]![trainType]
-                                      .toString(),
+                                  timeDes: train['StopTimes'][1]["DepartureTime"],
+                                  timeStart: train['StopTimes'][0]['DepartureTime'],
+                                  price: vm.pricesByDirection[direction]![trainType].toString(),
                                   trainNo: train["TrainInfo"]["TrainNo"],
-                                  trainType: trainTypeName(
-                                    context,
-                                    int.parse(
-                                      train["TrainInfo"]["TrainTypeCode"],
-                                    ),
-                                  ),
+                                  trainType: trainTypeName(context, int.parse(train["TrainInfo"]["TrainTypeCode"])),
                                   missed: missed,
+                                  delay: vm.delayTime[train["TrainInfo"]["TrainNo"]] ?? null,
                                 ),
                               ),
                               SizedBox(height: 3),
@@ -198,6 +156,7 @@ class TrainStatusCard extends StatelessWidget {
   final String timeDes;
   final String trainNo;
   final String trainType;
+  final int? delay;
   final bool recommended;
   final bool missed;
 
@@ -210,6 +169,7 @@ class TrainStatusCard extends StatelessWidget {
     required this.trainType,
     required this.recommended,
     required this.missed,
+    this.delay,
   });
 
   @override
@@ -219,12 +179,7 @@ class TrainStatusCard extends StatelessWidget {
     return InkWell(
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
-        side: BorderSide(
-          color: recommended
-              ? Theme.of(context).colorScheme.primary
-              : Colors.transparent,
-          width: 2.0,
-        ),
+        side: BorderSide(color: recommended ? Theme.of(context).colorScheme.primary : Colors.transparent, width: 2.0),
       ),
       borderRadius: BorderRadius.circular(4),
       splashColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -246,33 +201,22 @@ class TrainStatusCard extends StatelessWidget {
                           Text(
                             timeStart,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                           Icon(Icons.arrow_right),
                           Text(
                             timeDes,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                       Row(
                         children: [
                           Text(
-                            localizations.durationMinutes(
-                              toMinutes(timeDes) - toMinutes(timeStart),
-                            ),
+                            localizations.durationMinutes(toMinutes(timeDes) - toMinutes(timeStart)),
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
@@ -284,10 +228,14 @@ class TrainStatusCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        missed ? localizations.passed : localizations.onTime,
+                        missed
+                            ? localizations.passed
+                            : delay != null
+                            ? localizations.trainDelayedTime(delay as int)
+                            : localizations.onTime,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: missed
+                          color: missed || delay != null
                               ? Theme.of(context).colorScheme.error
                               : Theme.of(context).textTheme.bodyMedium?.color,
                           fontSize: 12,
@@ -320,11 +268,7 @@ class TrainStatusCard extends StatelessWidget {
                       ),
                       Text(
                         "$price\$",
-                        style: TextStyle(
-                          color: Colors.amber,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
+                        style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 12),
                       ),
                     ],
                   ),
