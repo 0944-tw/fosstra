@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class Station {
@@ -78,27 +76,15 @@ class StationName {
   final String zhTw;
   final String en;
 
-  StationName({
-    required this.zhTw,
-    required this.en,
-  });
+  StationName({required this.zhTw, required this.en});
 
   factory StationName.fromJson(Map<String, dynamic> json) {
-    return StationName(
-      zhTw: json['Zh_tw'] as String,
-      en: json['En'] as String,
-    );
+    return StationName(zhTw: json['Zh_tw'] as String, en: json['En'] as String);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'Zh_tw': zhTw,
-      'En': en,
-    };
-    
+    return {'Zh_tw': zhTw, 'En': en};
   }
-
-
 
   @override
   String toString() => en;
@@ -109,11 +95,7 @@ class StationPosition {
   final double positionLat;
   final String geoHash;
 
-  StationPosition({
-    required this.positionLon,
-    required this.positionLat,
-    required this.geoHash,
-  });
+  StationPosition({required this.positionLon, required this.positionLat, required this.geoHash});
 
   factory StationPosition.fromJson(Map<String, dynamic> json) {
     return StationPosition(
@@ -124,10 +106,6 @@ class StationPosition {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'PositionLon': positionLon,
-      'PositionLat': positionLat,
-      'GeoHash': geoHash,
-    };
+    return {'PositionLon': positionLon, 'PositionLat': positionLat, 'GeoHash': geoHash};
   }
 }

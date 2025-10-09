@@ -5,19 +5,23 @@ class SettingsLayout extends StatefulWidget {
   final Widget child;
   final String title;
 
-  const SettingsLayout({super.key, required this.child,required this.title});
+  const SettingsLayout({super.key, required this.child, required this.title});
 
   @override
   State<SettingsLayout> createState() => _SettingsLayoutState();
 }
 
 class _SettingsLayoutState extends State<SettingsLayout> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-      appBar: AppBar(title: Text(widget.title), leading: BackButton(onPressed: () => context.pop()), centerTitle: true,backgroundColor:   Theme.of(context).colorScheme.surfaceContainer),
+      appBar: AppBar(
+        title: Text(widget.title),
+        leading: BackButton(onPressed: () => context.pop()),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      ),
       body: widget.child,
     );
   }

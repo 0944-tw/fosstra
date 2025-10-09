@@ -40,16 +40,10 @@ class TRATimetables extends StatelessWidget {
                         expandedHeight: 200.0,
                         floating: false,
                         pinned: true,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.surfaceContainer,
+                        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
                         flexibleSpace: FlexibleSpaceBar(
                           centerTitle: true,
-                          titlePadding: EdgeInsets.only(
-                            bottom: 8.0,
-                            left: 16.0,
-                            right: 16.0,
-                          ),
+                          titlePadding: EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
                           title: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,26 +51,17 @@ class TRATimetables extends StatelessWidget {
                               Text(
                                 '$trainTypeID ${vm.trainInfo?["TrainTypeName"]?[locale] ?? ""}',
                                 style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).textTheme.titleLarge?.color,
+                                  color: Theme.of(context).textTheme.titleLarge?.color,
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
                                 localizations.routeDescription(
-                                  vm.trainInfo?["StartingStationName"]?[locale] ??
-                                      "",
-                                  vm.trainInfo?["EndingStationName"]?[locale] ??
-                                      "",
+                                  vm.trainInfo?["StartingStationName"]?[locale] ?? "",
+                                  vm.trainInfo?["EndingStationName"]?[locale] ?? "",
                                 ),
-                                style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).textTheme.titleLarge?.color,
-                                  fontSize: 12.0,
-                                ),
+                                style: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color, fontSize: 12.0),
                               ),
                             ],
                           ),
@@ -99,12 +84,7 @@ class TRATimetables extends StatelessWidget {
                                 Expanded(
                                   flex: 5,
                                   child: Row(
-                                    children: [
-                                      Text(
-                                        info["StationName"][locale],
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ],
+                                    children: [Text(info["StationName"][locale], style: TextStyle(fontSize: 18))],
                                   ),
                                 ),
                                 Expanded(
@@ -114,18 +94,12 @@ class TRATimetables extends StatelessWidget {
                                     children: [
                                       Text(
                                         info["ArrivalTime"],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                        ),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                                       ),
                                       Icon(Icons.arrow_right),
                                       Text(
                                         info["DepartureTime"],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17,
-                                        ),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                                       ),
                                     ],
                                   ),

@@ -181,7 +181,7 @@ class SettingsIndex extends StatelessWidget {
                     icon: Symbols.info_rounded,
                     onTap: () {},
                   ),
-                  SizedBox(height: 3,),
+                  SizedBox(height: 3),
                   SettingsListTile(
                     title: localizations.settingsDonateTitle,
                     icon: Symbols.favorite_rounded,

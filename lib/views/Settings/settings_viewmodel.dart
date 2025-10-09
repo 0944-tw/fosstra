@@ -17,17 +17,14 @@ class SettingsViewModel extends BaseViewModel {
 
   Future<void> init(context) async {
     setBusy(true);
-     _useTestData = _prefs.getBool("useTestData") ?? false;
+    _useTestData = _prefs.getBool("useTestData") ?? false;
     _enableMaterialYou = _prefs.getBool("enableMaterialYou") ?? true;
     _debugMode = _prefs.getBool("debugMode") ?? false;
     String? localeString = _prefs.getString("locale");
     if (localeString == null) {
       _locale = Localizations.localeOf(context);
     } else {
-      _locale = Locale.fromSubtags(
-          languageCode: localeString
-
-      );
+      _locale = Locale.fromSubtags(languageCode: localeString);
     }
     notifyListeners();
     setBusy(false);
@@ -51,47 +48,45 @@ class SettingsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void resetData(){
+  void resetData() {
     _prefs.clear();
   }
-  Future<void> changeLanguage(context){
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, //
-        builder: (BuildContext context) {
-          Locale? selectedLocale ;
-          return AlertDialog(
-            title: const Text('Select Language'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children:  <Widget>[
-                  RadioListTile<Locale>(
-                    title: const Text('English'),
-                    value: Locale.fromSubtags(countryCode: "us"),
-                    onChanged: (Locale? value) {
-                      selectedLocale = value;
-                      Navigator.of(context).pop();
-                    },
-                    groupValue: selectedLocale,
-                  ),
-                  RadioListTile<Locale>(
-                    title: const Text('繁體中文'),
-                    value: Locale.fromSubtags(countryCode: "zh"),
-                    onChanged: (Locale? value) {
-                      selectedLocale = value;
-                      Navigator.of(context).pop();
-                    },
-                    groupValue: selectedLocale,
-                  ),
-                ],
-              ),
+
+  Future<void> changeLanguage(context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, //
+      builder: (BuildContext context) {
+        Locale? selectedLocale;
+        return AlertDialog(
+          title: const Text('Select Language'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                RadioListTile<Locale>(
+                  title: const Text('English'),
+                  value: Locale.fromSubtags(countryCode: "us"),
+                  onChanged: (Locale? value) {
+                    selectedLocale = value;
+                    Navigator.of(context).pop();
+                  },
+                  groupValue: selectedLocale,
+                ),
+                RadioListTile<Locale>(
+                  title: const Text('繁體中文'),
+                  value: Locale.fromSubtags(countryCode: "zh"),
+                  onChanged: (Locale? value) {
+                    selectedLocale = value;
+                    Navigator.of(context).pop();
+                  },
+                  groupValue: selectedLocale,
+                ),
+              ],
             ),
-            actions: <Widget>[
-
-            ],
-          );
-        },
-      );
-
+          ),
+          actions: <Widget>[],
+        );
+      },
+    );
   }
 }

@@ -12,8 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceService().init();
 
-  final bool useMaterialYou =
-      PreferenceService().instance.getBool('enableMaterialYou') ?? true;
+  final bool useMaterialYou = PreferenceService().instance.getBool('enableMaterialYou') ?? true;
   String? localeString = PreferenceService().instance.getString("locale");
   Locale? locale;
   if (localeString != null) {
@@ -48,14 +47,8 @@ class MainApp extends StatelessWidget {
         );
 
         if (useMaterialYou && lightDynamic != null && darkDynamic != null) {
-          lightColorScheme = ColorScheme.fromSeed(
-            seedColor: lightDynamic.primary,
-            brightness: Brightness.light,
-          );
-          darkColorScheme = ColorScheme.fromSeed(
-            seedColor: lightDynamic.primary,
-            brightness: Brightness.dark,
-          );
+          lightColorScheme = ColorScheme.fromSeed(seedColor: lightDynamic.primary, brightness: Brightness.light);
+          darkColorScheme = ColorScheme.fromSeed(seedColor: lightDynamic.primary, brightness: Brightness.dark);
         }
 
         return MaterialApp.router(

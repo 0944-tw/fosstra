@@ -12,23 +12,21 @@ class SettingsLocalePageViewModel extends BaseViewModel {
 
   Locale get locale => _locale;
 
-  void updateLocale(BuildContext context,Locale locale) {
+  void updateLocale(BuildContext context, Locale locale) {
     _locale = locale;
     _prefs.setString("locale", locale.languageCode);
     notifyListeners();
     context.read<LocaleProvider>().setLocale(locale);
   }
+
   Future<void> init(context) async {
     setBusy(true);
     String? localeString = _prefs.getString("locale");
     if (localeString == null) {
       _locale = Localizations.localeOf(context);
     } else {
-      _locale = Locale.fromSubtags(
-        languageCode: localeString
-
-      );
+      _locale = Locale.fromSubtags(languageCode: localeString);
     }
-     setBusy(false);
+    setBusy(false);
   }
 }

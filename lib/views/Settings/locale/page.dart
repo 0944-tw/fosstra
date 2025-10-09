@@ -8,7 +8,6 @@ import 'package:tra/views/Settings/locale/viewmodel.dart';
 class SettingsLocalePage extends StatelessWidget {
   const SettingsLocalePage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     const Map<String, String> languageMap = {
@@ -44,10 +43,7 @@ class SettingsLocalePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    title: Text(
-                      "Current Language",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                    title: Text("Current Language", style: TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Text(languageMap[model.locale.languageCode] ?? ""),
                     textColor: Theme.of(context).colorScheme.inversePrimary,
                   ),
@@ -65,26 +61,27 @@ class SettingsLocalePage extends StatelessWidget {
                 children: [
                   for (var i = 0; i < localeList.length; i++)
                     Builder(
-                        builder: (context) {
-                          final item = localeList[i];
-                          final isLastItem = i == localeList.length - 1;
+                      builder: (context) {
+                        final item = localeList[i];
+                        final isLastItem = i == localeList.length - 1;
 
-                          return Column(
-                            children: [
-                              ListTile(
-                                tileColor: Theme.of(context).colorScheme.surface,
-                                title: Text(languageMap[item.languageCode] ?? "Unknown"),
-                                trailing: model.locale.toString() == item.toString() ? Icon(Symbols.check_rounded, weight: 300) : null,
-                                onTap: () {
-                                 model.updateLocale(context,item);
-                                  context.pop();
-                                },
-                              ),
-                              if (!isLastItem)
-                                SizedBox(height: 3),
-                            ],
-                          );
-                        }
+                        return Column(
+                          children: [
+                            ListTile(
+                              tileColor: Theme.of(context).colorScheme.surface,
+                              title: Text(languageMap[item.languageCode] ?? "Unknown"),
+                              trailing: model.locale.toString() == item.toString()
+                                  ? Icon(Symbols.check_rounded, weight: 300)
+                                  : null,
+                              onTap: () {
+                                model.updateLocale(context, item);
+                                context.pop();
+                              },
+                            ),
+                            if (!isLastItem) SizedBox(height: 3),
+                          ],
+                        );
+                      },
                     ),
                 ],
               ),

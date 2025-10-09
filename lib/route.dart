@@ -15,8 +15,7 @@ class AppRouter {
       GoRoute(path: '/', builder: (context, state) => HomePage()),
       GoRoute(
         path: "/TRA/train/:id",
-        builder: (context, state) =>
-            TRATimetables(trainTypeID: state.pathParameters['id']),
+        builder: (context, state) => TRATimetables(trainTypeID: state.pathParameters['id']),
       ),
       GoRoute(
         path: "/TRA/search",
@@ -26,28 +25,20 @@ class AppRouter {
           final destination = extra?["destination"] as dynamic;
           final date = extra?["date"] as DateTime?;
           final time = extra?["time"] as TimeOfDay?;
-          return TRASearchPage(
-            startStation: start,
-            desStation: destination,
-            dateTime: date,
-            timeOfDay: time,
-          );
+          return TRASearchPage(startStation: start, desStation: destination, dateTime: date, timeOfDay: time);
         },
       ),
       GoRoute(
         path: '/settings',
-        builder: (context, state) =>
-            SettingsLayout(title: "settings", child: SettingsIndex()),
+        builder: (context, state) => SettingsLayout(title: "settings", child: SettingsIndex()),
         routes: [
           GoRoute(
             path: 'locale',
-            builder: (context, state) =>
-                SettingsLayout(title: "langauges", child: SettingsLocalePage()),
+            builder: (context, state) => SettingsLayout(title: "langauges", child: SettingsLocalePage()),
           ),
           GoRoute(
             path: 'debug',
-            builder: (context, state) =>
-                SettingsLayout(title: "Debug", child: SettingsDebugPage()),
+            builder: (context, state) => SettingsLayout(title: "Debug", child: SettingsDebugPage()),
           ),
         ],
       ),
