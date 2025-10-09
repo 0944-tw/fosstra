@@ -155,4 +155,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsDonateDescription => 'This project costs 200 dolla per month (6.5 credits of maimai)';
+
+  @override
+  String trainDelayedTime(int delay) {
+    return '${delay}m Late';
+  }
+
+  @override
+  String get tpe => 'Taipei';
+
+  @override
+  String get kee => 'Keelung';
+
+  @override
+  String get nwt => 'New Taipei';
+
+  @override
+  String get tao => 'Taoyuan';
+
+  @override
+  String get hsq => 'Hsinchu County';
+
+  @override
+  String get hsz => 'Hsinchu City';
+
+  @override
+  String get mia => 'Miaoli';
+
+  @override
+  String get txg => 'Taichung';
+
+  @override
+  String get cha => 'Changhua';
+
+  @override
+  String get nan => 'Nantou';
+
+  @override
+  String get yun => 'Yunlin';
+
+  @override
+  String get cyq => 'Chiayi County';
+
+  @override
+  String get cyi => 'Chiayi City';
+
+  @override
+  String get tnn => 'Tainan';
+
+  @override
+  String get khh => 'Kaohsiung';
+
+  @override
+  String get pif => 'Pingtung';
+
+  @override
+  String get ttt => 'Taitung';
+
+  @override
+  String get hua => 'Hualien';
+
+  @override
+  String get ila => 'Yilan';
+
+  @override
+  String get pen => 'Penghu';
+
+  @override
+  String get kin => 'Kinmen';
+
+  @override
+  String get ltt => 'Lienchiang';
 }

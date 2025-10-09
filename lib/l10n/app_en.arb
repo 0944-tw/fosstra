@@ -52,7 +52,6 @@
   "onTime": "On time",
   "recommended": "Recommended",
   "loading": "Loading",
-
   "fuHsing": "Fu-Hsing Semi Express",
   "localTrain": "Local Train",
   "localTrainFast": "Fast Local Train",
@@ -62,27 +61,53 @@
   "chuKuangExpress": "Chu-Kuang Express",
   "puyumaExpress": "Puyuma Express",
   "tarokoExpress": "Taroko Express",
-
   "settingsGeneral": "General",
   "settingsMaterialYouTitle": "Material You",
   "settingsMaterialYouDescription": "Use System Color",
-
   "settingsLanguageTitle": "Language",
-
   "settingsAdvanced": "Advanced",
   "settingsAPIConfigurationTitle": "API Configuration",
   "settingsAPIConfigurationDescription": "Modify API Configuration (Token,API URL)",
-
   "settingsDebugModeTitle": "Debug Mode",
   "settingsDebugModeDescription": "Debug Mode",
-
   "settingsTestingDataTitle": "Testing Data",
   "settingsTestingDataDescription": "This will use testing data instead of real data",
-
   "settingsAbout": "About",
-
   "settingsVersionTitle": "Version",
   "settingsDonateTitle": "Donate",
-  "settingsDonateDescription": "This project costs 200 dolla per month (6.5 credits of maimai)"
+  "settingsDonateDescription": "This project costs 200 dolla per month (6.5 credits of maimai)",
+
+  "trainDelayedTime": "{delay}m Late",
+  "@trainDelayedTime": {
+    "description": "Delay of train",
+    "placeholders": {
+      "delay": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+ "tpe": "Taipei",
+  "kee": "Keelung",
+  "nwt": "New Taipei",
+  "tao": "Taoyuan",
+  "hsq": "Hsinchu County",
+  "hsz": "Hsinchu City",
+  "mia": "Miaoli",
+  "txg": "Taichung",
+  "cha": "Changhua",
+  "nan": "Nantou",
+  "yun": "Yunlin",
+  "cyq": "Chiayi County",
+  "cyi": "Chiayi City",
+  "tnn": "Tainan",
+  "khh": "Kaohsiung",
+  "pif": "Pingtung",
+  "ttt": "Taitung",
+  "hua": "Hualien",
+  "ila": "Yilan",
+  "pen": "Penghu",
+  "kin": "Kinmen",
+  "ltt": "Lienchiang"
 }
-   

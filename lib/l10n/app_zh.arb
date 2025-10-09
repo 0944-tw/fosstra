@@ -52,7 +52,6 @@
   "onTime": "準點",
   "recommended": "推薦",
   "loading": "載入中",
-
   "fuHsing": "復興號",
   "localTrain": "區間車",
   "localTrainFast": "區間快車",
@@ -62,26 +61,51 @@
   "chuKuangExpress": "莒光號",
   "puyumaExpress": "普悠瑪號",
   "tarokoExpress": "太魯閣號",
-
   "settingsGeneral": "一般",
   "settingsMaterialYouTitle": "Material You",
   "settingsMaterialYouDescription": "使用系統色彩",
-
   "settingsLanguageTitle": "語言",
-
   "settingsAdvanced": "進階",
   "settingsAPIConfigurationTitle": "API 設定",
   "settingsAPIConfigurationDescription": "修改 API 設定 (Token, API URL)",
-
   "settingsDebugModeTitle": "偵錯模式",
   "settingsDebugModeDescription": "偵錯模式",
-
   "settingsTestingDataTitle": "測試資料",
   "settingsTestingDataDescription": "這將會使用測試資料而非真實資料",
-
   "settingsAbout": "關於",
-
   "settingsVersionTitle": "版本",
   "settingsDonateTitle": "贊助",
-  "settingsDonateDescription": "這個專案每月花費 200 美元 (6.5 道 maimai)"
+  "settingsDonateDescription": "這個專案每月花費 200 美元 (6.5 道 maimai)",
+  "trainDelayedTime": "晚{delay}分",
+  "@trainDelayedTime": {
+    "description": "列車延誤時間",
+    "placeholders": {
+      "delay": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "tpe": "臺北市",
+  "kee": "基隆市",
+  "nwt": "新北市",
+  "tao": "桃園市",
+  "hsq": "新竹縣",
+  "hsz": "新竹市",
+  "mia": "苗栗縣",
+  "txg": "臺中市",
+  "cha": "彰化縣",
+  "nan": "南投縣",
+  "yun": "雲林縣",
+  "cyq": "嘉義縣",
+  "cyi": "嘉義市",
+  "tnn": "臺南市",
+  "khh": "高雄市",
+  "pif": "屏東縣",
+  "ttt": "臺東縣",
+  "hua": "花蓮縣",
+  "ila": "宜蘭縣",
+  "pen": "澎湖縣",
+  "kin": "金門縣",
+  "ltt": "連江縣"
 }

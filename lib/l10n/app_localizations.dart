@@ -364,6 +364,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This project costs 200 dolla per month (6.5 credits of maimai)'**
   String get settingsDonateDescription;
+
+  /// Delay of train
+  ///
+  /// In en, this message translates to:
+  /// **'{delay}m Late'**
+  String trainDelayedTime(int delay);
+
+  /// No description provided for @tpe.
+  ///
+  /// In en, this message translates to:
+  /// **'Taipei'**
+  String get tpe;
+
+  /// No description provided for @kee.
+  ///
+  /// In en, this message translates to:
+  /// **'Keelung'**
+  String get kee;
+
+  /// No description provided for @nwt.
+  ///
+  /// In en, this message translates to:
+  /// **'New Taipei'**
+  String get nwt;
+
+  /// No description provided for @tao.
+  ///
+  /// In en, this message translates to:
+  /// **'Taoyuan'**
+  String get tao;
+
+  /// No description provided for @hsq.
+  ///
+  /// In en, this message translates to:
+  /// **'Hsinchu County'**
+  String get hsq;
+
+  /// No description provided for @hsz.
+  ///
+  /// In en, this message translates to:
+  /// **'Hsinchu City'**
+  String get hsz;
+
+  /// No description provided for @mia.
+  ///
+  /// In en, this message translates to:
+  /// **'Miaoli'**
+  String get mia;
+
+  /// No description provided for @txg.
+  ///
+  /// In en, this message translates to:
+  /// **'Taichung'**
+  String get txg;
+
+  /// No description provided for @cha.
+  ///
+  /// In en, this message translates to:
+  /// **'Changhua'**
+  String get cha;
+
+  /// No description provided for @nan.
+  ///
+  /// In en, this message translates to:
+  /// **'Nantou'**
+  String get nan;
+
+  /// No description provided for @yun.
+  ///
+  /// In en, this message translates to:
+  /// **'Yunlin'**
+  String get yun;
+
+  /// No description provided for @cyq.
+  ///
+  /// In en, this message translates to:
+  /// **'Chiayi County'**
+  String get cyq;
+
+  /// No description provided for @cyi.
+  ///
+  /// In en, this message translates to:
+  /// **'Chiayi City'**
+  String get cyi;
+
+  /// No description provided for @tnn.
+  ///
+  /// In en, this message translates to:
+  /// **'Tainan'**
+  String get tnn;
+
+  /// No description provided for @khh.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaohsiung'**
+  String get khh;
+
+  /// No description provided for @pif.
+  ///
+  /// In en, this message translates to:
+  /// **'Pingtung'**
+  String get pif;
+
+  /// No description provided for @ttt.
+  ///
+  /// In en, this message translates to:
+  /// **'Taitung'**
+  String get ttt;
+
+  /// No description provided for @hua.
+  ///
+  /// In en, this message translates to:
+  /// **'Hualien'**
+  String get hua;
+
+  /// No description provided for @ila.
+  ///
+  /// In en, this message translates to:
+  /// **'Yilan'**
+  String get ila;
+
+  /// No description provided for @pen.
+  ///
+  /// In en, this message translates to:
+  /// **'Penghu'**
+  String get pen;
+
+  /// No description provided for @kin.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinmen'**
+  String get kin;
+
+  /// No description provided for @ltt.
+  ///
+  /// In en, this message translates to:
+  /// **'Lienchiang'**
+  String get ltt;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

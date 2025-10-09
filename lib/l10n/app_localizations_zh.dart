@@ -73,7 +73,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get passed => '已通過';
+  String get passed => '已過站';
 
   @override
   String get onTime => '準點';
@@ -155,4 +155,75 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsDonateDescription => '這個專案每月花費 200 美元 (6.5 道 maimai)';
+
+  @override
+  String trainDelayedTime(int delay) {
+    return '晚$delay分';
+  }
+
+  @override
+  String get tpe => '臺北市';
+
+  @override
+  String get kee => '基隆市';
+
+  @override
+  String get nwt => '新北市';
+
+  @override
+  String get tao => '桃園市';
+
+  @override
+  String get hsq => '新竹縣';
+
+  @override
+  String get hsz => '新竹市';
+
+  @override
+  String get mia => '苗栗縣';
+
+  @override
+  String get txg => '臺中市';
+
+  @override
+  String get cha => '彰化縣';
+
+  @override
+  String get nan => '南投縣';
+
+  @override
+  String get yun => '雲林縣';
+
+  @override
+  String get cyq => '嘉義縣';
+
+  @override
+  String get cyi => '嘉義市';
+
+  @override
+  String get tnn => '臺南市';
+
+  @override
+  String get khh => '高雄市';
+
+  @override
+  String get pif => '屏東縣';
+
+  @override
+  String get ttt => '臺東縣';
+
+  @override
+  String get hua => '花蓮縣';
+
+  @override
+  String get ila => '宜蘭縣';
+
+  @override
+  String get pen => '澎湖縣';
+
+  @override
+  String get kin => '金門縣';
+
+  @override
+  String get ltt => '連江縣';
 }
