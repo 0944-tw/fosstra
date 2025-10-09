@@ -14,6 +14,9 @@ class HomePageViewModel extends BaseViewModel {
   Station? stationStart;
   Station? stationDestination;
 
+  String? stationStartName;
+  String? stationDestinationName;
+
   DateTime? selectedDate;
   TimeOfDay? selectedTimeOfDay;
 
@@ -29,10 +32,7 @@ class HomePageViewModel extends BaseViewModel {
   }
 
   Future<void> updateTimeOfDay(dynamic context) async {
-    TimeOfDay? td = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
+    TimeOfDay? td = await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (td != null) {
       selectedTimeOfDay = td;
     }
@@ -41,17 +41,10 @@ class HomePageViewModel extends BaseViewModel {
 
   Future<void> selectCity(dynamic context, String type) async {
     final loc = Localizations.localeOf(context);
-    String localizedName(Locale locale) {
-      if (locale.languageCode == 'zh') return "Zh_tw";
-      return "En";
-    }
 
     dynamic result = await Navigator.push<dynamic>(
       context,
-      MaterialPageRoute(
-        builder: (context) =>
-            LocationSelectView(title: type == "start" ? "出發點" : "目的地"),
-      ),
+      MaterialPageRoute(builder: (context) => LocationSelectView(title: type == "start" ? "出發點" : "目的地")),
     );
 
     if (result != null) {
@@ -62,11 +55,18 @@ class HomePageViewModel extends BaseViewModel {
         stationDestination = Station.fromJson(result);
         // stationDestinationName = result["StationName"][localizedName(loc)];
       }
+      if (Localizations.localeOf(context).languageCode == "zh") {
+        stationStartName = stationStart?.stationName.zhTw;
+        stationDestinationName = stationDestination?.stationName.zhTw;
+      } else {
+        stationStartName = stationStart?.stationName.en;
+        stationDestinationName = stationDestination?.stationName.en;
+      }
     }
     notifyListeners();
   }
 
-  void init() async {
+  void init(BuildContext context) async {
     String? lastStationStart = _prefs.getString("lastStationStart");
     String? lastStationDestination = _prefs.getString("lastStationDestination");
 
@@ -74,9 +74,14 @@ class HomePageViewModel extends BaseViewModel {
       stationStart = Station.fromJson(json.decode(lastStationStart));
     }
     if (lastStationDestination != null) {
-      stationDestination = Station.fromJson(
-        json.decode(lastStationDestination),
-      );
+      stationDestination = Station.fromJson(json.decode(lastStationDestination));
+    }
+    if (Localizations.localeOf(context).languageCode == "zh") {
+      stationStartName = stationStart?.stationName.zhTw;
+      stationDestinationName = stationDestination?.stationName.zhTw;
+    } else {
+      stationStartName = stationStart?.stationName.en;
+      stationDestinationName = stationDestination?.stationName.en;
     }
   }
 
@@ -91,10 +96,7 @@ class HomePageViewModel extends BaseViewModel {
 
   Future<void> search(BuildContext context) async {
     _prefs.setString("lastStationStart", json.encode(stationStart?.toJson()));
-    _prefs.setString(
-      "lastStationDestination",
-      json.encode(stationDestination?.toJson()),
-    );
+    _prefs.setString("lastStationDestination", json.encode(stationDestination?.toJson()));
     context.push(
       "/TRA/search",
       extra: {

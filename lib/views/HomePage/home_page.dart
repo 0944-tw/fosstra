@@ -22,16 +22,14 @@ class _HomePageState extends State<HomePage> {
 
     return ViewModelBuilder<HomePageViewModel>.reactive(
       viewModelBuilder: () => HomePageViewModel(),
-      onViewModelReady: (viewModel) => {
-        viewModel.init()
-      },
+      onViewModelReady: (viewModel) => {viewModel.init(context)},
       builder: (context, model, child) => Scaffold(
         bottomNavigationBar: NavigationBar(
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
           onDestinationSelected: (int index) {
             setState(() {
-                currentPageIndex = index;
-              });
+              currentPageIndex = index;
+            });
           },
           selectedIndex: currentPageIndex,
 
@@ -41,16 +39,8 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.home_rounded),
               label: localizations.home,
             ),
-            NavigationDestination(
-              icon: const Icon(Icons.history),
-              label: localizations.history,
-              enabled: false,
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.favorite),
-              label: localizations.favorite,
-              enabled: false,
-            ),
+            NavigationDestination(icon: const Icon(Icons.history), label: localizations.history, enabled: false),
+            NavigationDestination(icon: Icon(Icons.favorite), label: localizations.favorite, enabled: false),
           ],
         ),
         body: Scaffold(
@@ -94,9 +84,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 LocationTile(
                                   name: localizations.startStation,
-                                  description:
-                                  model.stationStart?.stationName.toString() ??
-                                    localizations.empty,
+                                  description: model.stationStartName ?? localizations.empty,
                                   icon: Icons.flight_takeoff_rounded,
                                   onClick: () {
                                     model.selectCity(context, "start");
@@ -105,9 +93,7 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(height: 3),
                                 LocationTile(
                                   name: localizations.destinationStation,
-                                  description:
-                                  model.stationDestination?.stationName.toString() ??
-                                    localizations.empty,
+                                  description: model.stationDestinationName ?? localizations.empty,
                                   icon: Icons.flight_land_rounded,
                                   onClick: () {
                                     model.selectCity(context, "des");
@@ -144,10 +130,14 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: EdgeInsetsGeometry.only(right: 1),
                               child: LocationTile(
-                                radius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+                                radius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12),
+                                ),
                                 name: localizations.date,
                                 description:
-                                model.selectedDate?.toString().split(' ')[0] ?? DateTime.now().toString().split(' ')[0],
+                                    model.selectedDate?.toString().split(' ')[0] ??
+                                    DateTime.now().toString().split(' ')[0],
                                 icon: Icons.calendar_today,
                                 onClick: () => model.updateDateTime(context),
                               ),
@@ -158,9 +148,13 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: EdgeInsetsGeometry.only(left: 1),
                               child: LocationTile(
-                                radius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
+                                radius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12),
+                                ),
                                 name: localizations.time,
-                                description: '${model.selectedTimeOfDay?.hour ?? TimeOfDay.now().hour}:${model.selectedTimeOfDay?.minute ?? TimeOfDay.now().minute}',
+                                description:
+                                    '${model.selectedTimeOfDay?.hour ?? TimeOfDay.now().hour}:${model.selectedTimeOfDay?.minute ?? TimeOfDay.now().minute}',
                                 icon: Icons.timer,
                                 onClick: () => model.updateTimeOfDay(context),
                               ),
@@ -176,25 +170,17 @@ class _HomePageState extends State<HomePage> {
 
                 FilledButton(
                   onPressed: () {
-                    if (model.stationDestination == null ||
-                      model.stationStart == null) {
+                    if (model.stationDestination == null || model.stationStart == null) {
                       showDialog<void>(
                         context: context,
                         barrierDismissible: false,
                         // user must tap button!
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text(
-                              localizations.stationNotSelectedAlertTitle,
-                            ),
+                            title: Text(localizations.stationNotSelectedAlertTitle),
                             content: SingleChildScrollView(
                               child: ListBody(
-                                children: <Widget>[
-                                  Text(
-                                    localizations
-                                      .stationNotSelectedAlertDescription,
-                                  ),
-                                ],
+                                children: <Widget>[Text(localizations.stationNotSelectedAlertDescription)],
                               ),
                             ),
                             actions: <Widget>[
