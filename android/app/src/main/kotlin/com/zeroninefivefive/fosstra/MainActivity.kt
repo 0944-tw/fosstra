@@ -1,4 +1,4 @@
-package com.zeroninefivefive.btrtra
+package com.zeroninefivefive.fosstra
 
 import io.flutter.embedding.android.FlutterActivity
 
