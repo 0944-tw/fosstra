@@ -89,7 +89,10 @@ class HomePageViewModel extends BaseViewModel {
     var temp = stationStart;
     // var temp2 = stationStartName;
     stationStart = stationDestination;
+    stationStartName = stationDestinationName;
+
     stationDestination = temp;
+    stationDestinationName = stationStartName;
     // stationStartName = stationDestinationName;
     notifyListeners();
   }
